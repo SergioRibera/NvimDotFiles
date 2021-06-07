@@ -66,6 +66,8 @@ Presence = require("presence"):setup({
 --
 --]
 vim.cmd("au FocusGained,BufEnter * :checktime")
+vim.cmd("autocmd BufWrite * mkview")
+vim.cmd("autocmd BufRead * silent! loadview")
 
 local M = {}
 
