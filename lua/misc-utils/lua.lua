@@ -65,11 +65,7 @@ Presence = require("presence"):setup({
 --      Autocommands
 --
 --]
-vim.cmd("au BufRead,BufNewFile *.ino setlocal ft=arduino")
-vim.cmd("au BufRead,BufNewFile */Arduino/**/*.h setlocal ft=arduino")
-vim.cmd("au BufRead,BufNewFile */Arduino/**/*.c setlocal ft=arduino")
-vim.cmd("au BufRead,BufNewFile */Arduino/**/*.cpp setlocal ft=arduino")
-
+vim.cmd("au FocusGained,BufEnter * :checktime")
 
 local M = {}
 
