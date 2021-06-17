@@ -329,6 +329,7 @@ The modes in my keymapping:
 |     n    |     `leader + gb`     |                  Show Git Branches with Telescope                  |                          |
 |     n    |     `leader + gs`     |                   Show Git Status with Telescope                   |                          |
 |     n    |     `leader + gt`     |                    Show Git Stash with Telescope                   |                          |
+|    i,n   |     `ctl + y + ,`     |               Emmet writed for you is convert into html            |                          |
 
 # TODO
 - [ ] Add Multicursor support
