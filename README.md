@@ -170,6 +170,14 @@ This is a custom system with autoload on open Nvim, this load last theme selecte
         <p> A high-performance color highlighter for Neovim</p>
     </blackquote>
 </details>
+<details>
+    <summary>
+        <a href="https://github.com/mattn/emmet-vim">Emmet</a> <code>Not have configuration File</code>
+    </summary><br>
+    <blockquote>
+        <p> Emmet Like VSCode</p>
+    </blackquote>
+</details>
 
 <details>
     <summary>
