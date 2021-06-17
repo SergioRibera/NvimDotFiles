@@ -178,6 +178,14 @@ This is a custom system with autoload on open Nvim, this load last theme selecte
         <p> Emmet Like VSCode</p>
     </blackquote>
 </details>
+<details>
+    <summary>
+        <a href="https://github.com/mg979/vim-visual-multi">Vim Visual Multicursor</a> <code>Not have configuration File</code>
+    </summary><br>
+    <blockquote>
+        <p>Visual Multicursor for Vim</p>
+    </blackquote>
+</details>
 
 <details>
     <summary>
@@ -340,7 +348,7 @@ The modes in my keymapping:
 |    i,n   |     `ctl + y + ,`     |               Emmet writed for you is convert into html            |                          |
 
 # TODO
-- [ ] Add Multicursor support
+- [x] Add Multicursor support
 - [ ] Add my plugin for take screenshot
 - [ ] Add Amazing tab
 - [ ] Allow only one instance of Nvim

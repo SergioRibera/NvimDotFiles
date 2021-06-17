@@ -32,7 +32,6 @@ return packer.startup(
         use 'hrsh7th/vim-vsnip-integ'
         use 'neovim/nvim-lspconfig'
         use 'mattn/emmet-vim' -- Impllemt emmet for html/js/css
-        -- use 'omnisharp/omnisharp-vim'
         -- Languajes Independents
         -- use {'akinsho/flutter-tools.nvim', requires = 'nvim-lua/plenary.nvim'}
         use 'nvim-lua/plenary.nvim'
@@ -44,6 +43,7 @@ return packer.startup(
         use { 'hoob3rt/lualine.nvim' }
         use "windwp/nvim-autopairs"
         use "alvan/vim-closetag"
+        use "mg979/vim-visual-multi" -- Implement multicursor
 
         -- file managing , picker etc
         use "kyazdani42/nvim-tree.lua"
