@@ -44,11 +44,9 @@ map("", "<leader>p", '"+p') -- Paste any text
 map("", "<leader>ws", ":split<Cr>") -- Open Split windows
 map("", "<leader>wh", ":vsplit<Cr>") -- Open Vertical split windows
 map("", "<leader>ps", ":TakeScreenShot<Cr>") -- Take Screenshot (require SergioRibera/vim-screenshot plugin)
-map("n", "<leader>r", ":NvimTreeRefresh<Cr>", { noremap = true })
 -- Kommentary
-map("n", "<leader>cc", "<Plug>kommentary_line_default<Cr>", {})
-map("n", "<leader>c", "<Plug>kommentary_motion_default<Cr>", {})
-map("v", "<leader>c", "<Plug>kommentary_visual_default<Cr>", {})
+map("n", "<leader>c", "<Plug>ToggleCommaround<Cr>", {})
+map("v", "<leader>c", "<Plug>ToggleCommaround<Cr>", {})
 
 -- Snippets enable jump to next cursor
 map('i', '<TAB>', 'v:lua.tab_complete()', { expr = true, noremap = false })
@@ -74,4 +72,4 @@ map("", "<leader>w", ':w<CR>')
 map("", "<leader>wq", ':wq<CR>')
 
 -- OPEN TERMINALS --
-map("n", "<C-x>", [[<Cmd> split term://zsh | resize 10 <CR>]], {}) -- open term bottom
+map("n", "<C-b>", [[<Cmd> split term://zsh | resize 10 <CR>]], {}) -- open term bottom
