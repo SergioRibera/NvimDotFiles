@@ -1,44 +1,47 @@
-require 'paq-nvim' {
-    -- 'savq/paq-nvim';
-    {"lukas-reineke/indent-blankline.nvim", branch = "lua"};
+vim.cmd [[packadd packer.nvim]]
+
+return require('packer').startup(function()
+    use 'wbthomason/packer.nvim'
+    use 'lukas-reineke/indent-blankline.nvim'
 
     -- color related stuff
-    "norcalli/nvim-base16.lua";
-    "norcalli/nvim-colorizer.lua";
+    use "norcalli/nvim-base16.lua"
+    use "norcalli/nvim-colorizer.lua"
 
     -- lsp stuff
-    "nvim-treesitter/nvim-treesitter";
-    -- "sheerun/vim-polyglot"
-    "hrsh7th/nvim-compe";
-    "onsails/lspkind-nvim";
-    'hrsh7th/vim-vsnip';
-    'hrsh7th/vim-vsnip-integ';
-    'neovim/nvim-lspconfig';
-    'mattn/emmet-vim'; -- Impllemt emmet for html/js/css
-    "terrortylor/nvim-comment";
+    use "nvim-treesitter/nvim-treesitter"
+    use "hrsh7th/nvim-compe"
+    use "onsails/lspkind-nvim"
+    use 'hrsh7th/vim-vsnip'
+    use 'hrsh7th/vim-vsnip-integ'
+    use 'neovim/nvim-lspconfig'
+    use 'mattn/emmet-vim' -- Impllemt emmet for html/js/css
+    use "terrortylor/nvim-comment"
+    use 'simrat39/symbols-outline.nvim'
+
     -- Languajes Independents
     -- {'akinsho/flutter-tools.nvim', requires = 'nvim-lua/plenary.nvim'}
-    'nvim-lua/plenary.nvim';
-    'simrat39/rust-tools.nvim';
+    use 'nvim-lua/plenary.nvim'
+    use 'simrat39/rust-tools.nvim'
 
-    "lewis6991/gitsigns.nvim";
-    "akinsho/nvim-bufferline.lua";
-    'hoob3rt/lualine.nvim';
-    "windwp/nvim-autopairs";
-    "alvan/vim-closetag";
-    "mg979/vim-visual-multi"; -- Implement multicursor
+    use "lewis6991/gitsigns.nvim"
+    use "akinsho/nvim-bufferline.lua"
+    use 'hoob3rt/lualine.nvim'
+    use "windwp/nvim-autopairs"
+    use "alvan/vim-closetag"
+    use "mg979/vim-visual-multi" -- Implement multicursor
 
     -- file managing , picker etc
-    "kyazdani42/nvim-tree.lua";
-    "kyazdani42/nvim-web-devicons";
-    "ryanoasis/vim-devicons";
-    "nvim-telescope/telescope.nvim";
-    "nvim-telescope/telescope-media-files.nvim";
-    "nvim-lua/popup.nvim";
+    use "kyazdani42/nvim-tree.lua"
+    use "kyazdani42/nvim-web-devicons"
+    use "ryanoasis/vim-devicons"
+    use "nvim-telescope/telescope.nvim"
+    use "nvim-telescope/telescope-media-files.nvim"
+    use "nvim-lua/popup.nvim"
 
     -- misc
-    'andweeb/presence.nvim'; -- display nvim on discord
-    "blackCauldron7/surround.nvim";
-    'jbyuki/instant.nvim'; -- Collaborative Nvim
-    'monaqa/dial.nvim'; -- Increment/Decrement number and more
-}
+    use 'andweeb/presence.nvim' -- display nvim on discord
+    use "blackCauldron7/surround.nvim"
+    use 'jbyuki/instant.nvim' -- Collaborative Nvim
+    use 'monaqa/dial.nvim' -- Increment/Decrement number and more
+end)

@@ -41,8 +41,8 @@ map("", "<C-h>", ":tabprevious<Cr>") -- Move to prev tab
 map("", "<C-l>", ":tabnext<Cr>") -- Move to next tab
 map("", "<leader>y", '"+y') -- Copy any selected text
 map("", "<leader>p", '"+p') -- Paste any text
-map("", "<leader>ws", ":split<Cr>") -- Open Split windows
-map("", "<leader>wh", ":vsplit<Cr>") -- Open Vertical split windows
+-- map("", "<leader>ws", ":split<Cr>") -- Open Split windows
+-- map("", "<leader>wh", ":vsplit<Cr>") -- Open Vertical split windows
 map("", "<leader>ps", ":TakeScreenShot<Cr>") -- Take Screenshot (require SergioRibera/vim-screenshot plugin)
 -- Kommentary
 map("n", "<leader>c", "<Plug>ToggleCommaround<Cr>", {})

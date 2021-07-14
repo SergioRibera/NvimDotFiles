@@ -14,11 +14,13 @@ cmd "syntax on"
 -- local base16 = require "base16"
 -- base16(base16.themes["material"], true)
 
--- blankline
-
+-- Identline
 g.indentLine_enabled = 1
 g.indentLine_char_list = { "▏", '¦', '┆', '┊' }
 g.ident_blankline_ident_level = 4
+g.indent_blankline_show_current_context = true
+g.indent_blankline_use_treesitter = true
+g.indent_blankline_context_patterns = { 'class', 'function', 'method', 'void' }
 -- g.indent_blankline_char = "▏"
 
 --
@@ -106,9 +108,9 @@ Presence = require("presence"):setup({
 --      Autocommands
 --
 --]
-vim.cmd("au FocusGained,BufEnter * :checktime")
-vim.cmd("autocmd BufWrite * mkview")
-vim.cmd("autocmd BufRead * silent! loadview")
+-- vim.cmd("au FocusGained,BufEnter * :checktime")
+-- vim.cmd("autocmd BufWrite * mkview")
+-- vim.cmd("autocmd BufRead * silent! loadview")
 
 local M = {}
 

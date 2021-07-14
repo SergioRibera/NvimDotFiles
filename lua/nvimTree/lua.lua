@@ -71,23 +71,23 @@ vim.api.nvim_set_keymap(
 local tree_cb = require'nvim-tree.config'.nvim_tree_callback
 
 g.nvim_tree_bindings = {
-    ["o"] = tree_cb("edit"),
-    ["<2-LeftMouse>"] = tree_cb("edit"),
-    ["v"] = tree_cb("vsplit"),
-    ["s"] = tree_cb("split"),
-    ["t"] = tree_cb("tabnew"),
-    ["C"] = tree_cb("cd"),
-    ["I"] = tree_cb("toggle_ignored"),
-    ["H"] = tree_cb("toggle_dotfiles"),
-    ["R"] = tree_cb("refresh"),
-    ["a"] = tree_cb("create"),
-    ["d"] = tree_cb("remove"),
-    ["r"] = tree_cb("rename"),
-    ["x"] = tree_cb("cut"),
-    ["c"] = tree_cb("copy"),
-    ["p"] = tree_cb("paste"),
-    ["-"] = tree_cb("dir_up"),
-    ["q"] = tree_cb("close")
+    { key = "o", cb = tree_cb("edit") },
+    { key = "<2-LeftMouse>", cb = tree_cb("edit") },
+    { key = "v", cb = tree_cb("vsplit") },
+    { key = "s", cb = tree_cb("split") },
+    { key = "t", cb = tree_cb("tabnew") },
+    { key = "C", cb = tree_cb("cd") },
+    { key = "I", cb = tree_cb("toggle_ignored") },
+    { key = "H", cb = tree_cb("toggle_dotfiles") },
+    { key = "R", cb = tree_cb("refresh") },
+    { key = "a", cb = tree_cb("create") },
+    { key = "d", cb = tree_cb("remove") },
+    { key = "r", cb = tree_cb("rename") },
+    { key = "x", cb = tree_cb("cut") },
+    { key = "c", cb = tree_cb("copy") },
+    { key = "p", cb = tree_cb("paste") },
+    { key = "-", cb = tree_cb("dir_up") },
+    { key = "q", cb = tree_cb("close") }
 }
 
 cmd "hi NvimTreeFolderIcon guifg = #61afef"
