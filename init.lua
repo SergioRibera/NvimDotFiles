@@ -47,7 +47,7 @@ require "instant"
 require "gitsigns.lua"
 
 require("nvim-autopairs").setup()
-require("nvim-autopairs").disable()
+-- require("nvim-autopairs").disable()
 
 require("lspkind").init(
 {
