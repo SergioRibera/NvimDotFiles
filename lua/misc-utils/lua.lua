@@ -20,7 +20,7 @@ g.indentLine_char_list = { "▏", '¦', '┆', '┊' }
 g.ident_blankline_ident_level = 4
 g.indent_blankline_show_current_context = true
 g.indent_blankline_use_treesitter = true
-g.indent_blankline_context_patterns = { 'class', 'function', 'method', 'void' }
+g.indent_blankline_context_patterns = { 'class', 'function', 'method', 'void', 'keyword' }
 -- g.indent_blankline_char = "▏"
 
 --
