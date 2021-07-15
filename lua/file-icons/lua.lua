@@ -104,11 +104,6 @@ require "nvim-web-devicons".setup {
             icon = "",
             color = "#fca2aa",
             name = "rpm"
-        },
-        term = {
-            icon = '',
-            color = "#ccc",
-            name = "term://"
         }
     }
 }
