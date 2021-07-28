@@ -30,7 +30,7 @@
     "For" : {
         "prefix": "for",
         "body": [
-            "for (int $1 = 0; $2 < $3; $4++) {",
+            "for (int $1 = 0; $1 < $3; $1++) {",
             "\t$5",
             "}"
         ]
@@ -112,6 +112,47 @@
             "}"
         ],
         "description" : "MonoBehaviour for Unity Development."
+    },
+    "ClassSingletone" : {
+        "prefix" : "singletoneclass",
+        "body" : [
+            "using System;",
+            "",
+            "public class ${1} {",
+            "",
+            "static ${1} _main = null;",
+            "\tpublic static ${1} Main {",
+            "\t\tget {",
+            "\t\t\tif (_main == null)",
+            "\t\t\t\treturn new ${1}();",
+            "\t\t\treturn _main;",
+            "\t}",
+            "",
+            "\t$2",
+            "}"
+        ],
+        "description" : "Basic singleton of class for any c# proyect."
+    },
+    "MonoBehaviourSingletone" : {
+        "prefix" : "singletonebehaviour",
+        "body" : [
+            "using System;",
+            "using UnityEngine;",
+            "",
+            "public class ${1} : MonoBehaviour {",
+            "",
+            "static ${1} _main = null;",
+            "\tpublic static ${1} Main {",
+            "\t\tget {",
+            "\t\t\tif (_main == null)",
+            "\t\t\t\treturn this;",
+            "\t\t\treturn _main;",
+            "\t}",
+            "",
+            "\t$2",
+            "}"
+        ],
+        "description" : "MonoBehaviour Singletone for Unity Development."
     },
     "Enum" : {
         "prefix" : "enum",
