@@ -17,7 +17,7 @@ end
 
 local M = {}
 
-M.files_settings_path = require("os").getenv('HOME') .. "/.config/nvim/lua_settings.conf"
+M.files_settings_path = vim.fn.stdpath('config') .. "/lua_settings.conf"
 M.settings = {}
 function M.load_settings()
     local file, err = io.open (M.files_settings_path, "r")
