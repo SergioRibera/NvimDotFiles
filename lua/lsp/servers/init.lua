@@ -10,6 +10,7 @@ local servers = {
     "pyright",
     "bashls",
     "jsonls",
+    "gopls",
     "rls",
     "yamlls"
 }
