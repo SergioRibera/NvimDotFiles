@@ -7,21 +7,19 @@ require "tabline.lua".setup {
     show_modify = true,
     show_icon = true,
     show_close = false,
-    separator = '',
-    spacing = '',
+    separator = '',
     indicators = {
-        modify = '●'
+        modify = '•'
     },
     no_name = '[No Name]',
     colors = {
         selected = {
-            bg = "#81A1C1",
+            bg = "#98c379",
             fg = "#1e222a"
         },
         disabled = {
-            bg = "#72767b",
-            -- bg = "#808892",
-            fg = "#1e222a"
+            bg = "#3e4452",
+            fg = "#abb2bf"
         },
         empty = "#282c34"
     }

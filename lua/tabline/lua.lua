@@ -6,9 +6,10 @@ M.options = {
     show_modify = true,
     show_icon = true,
     show_close = true,
-    -- separator = '',
-    separator = '',
+    separator = '',
     spacing = '',
+    close_icon = '×',
+    close_command = "deletebuf !",
     indicators = {
         modify = '+'
     },
@@ -22,13 +23,48 @@ M.options = {
             bg = "#D8DEE9",
             fg = "#1e222a"
         },
-        --separator = {
-        --    bg = "#282c34",
-        --    fg = "#81A1C1",
-        --},
         empty = "#282c34"
     }
 }
+
+
+
+---Handle a user "command" which can be a string or a function
+---@param command string|function
+---@param buf_id string
+local function handle_user_command(command, buf_id)
+    if not command then
+        return
+    end
+    if type(command) == "function" then
+        command(buf_id)
+    elseif type(command) == "string" then
+        vim.cmd(fmt(command, buf_id))
+    end
+end
+function M.handle_close_tab(buf_id)
+    local options = M.options
+    local close = options.close_command
+    handle_user_command(close, buf_id)
+end
+
+-- vim.cmd [[
+-- function! tabline_lua#handle_close_tab(minwid, clicks, btn, modifiers) abort
+--  call luaeval("require'tabline.lua'.handle_close_tab(_A)", a:minwid)
+-- endfunction
+-- ]]
+
+
+---Add click action to a component
+---@param func_name string
+---@param id number
+---@param component string
+---@return string
+function M.make_clickable(id, func_name, component)
+  -- v:lua does not support function references in vimscript so
+  -- the only way to implement this is using autoload vimscript functions
+  return "%" .. id .. "@tabline_lua#" .. func_name .. "@" .. component
+end
 
 function M.get_icon(name, extension, selected, opts)
     local ok, devicons = pcall(require, 'nvim-web-devicons')
@@ -67,11 +103,25 @@ local function tabline(options)
         local bufname = fn.bufname(bufnr)
         local bufmodified = fn.getbufvar(bufnr, "&mod")
         local gengroup = '%#TabLine#'
+        local separatorgroup = "%#TabLineSep#"
 
         s = s .. '%' .. index .. 'T'
-        if index == fn.tabpagenr() then
+        if index == fn.tabpagenr() then -- Current is selected
             gengroup = '%#TabLineSel#'
+            if index == fn.tabpagenr('$') then
+                separatorgroup = "%#TabLineSepEndSel#"
+            else
+                separatorgroup = "%#TabLineSepSel#"
+            end
+        -- TODO: made color border on multiple case
+        elseif (index + 1) == fn.tabpagenr() then -- Next is selected
+            separatorgroup = "%#TabLineSepNextSel#"
+        elseif index == fn.tabpagenr('$') then
+            separatorgroup = "%#TabLineSepEnd#"
+        else -- Not Selected
+            separatorgroup = "%#TabLineSep#"
         end
+
         s = s .. gengroup
         -- tab index
         if options.show_index then
@@ -92,9 +142,13 @@ local function tabline(options)
             s = s .. options.indicators.modify .. ' '
         end
         if options.show_close then
-            s = s .. "%999Xx"
+            s = s .. M.make_clickable(index, "handle_close_tab", gengroup .. M.options.close_icon .. M.options.spacing .. "%X" )
         end
-        s = s .. options.spacing .. "%#TabLineSep#" .. options.separator .. gengroup .. options.spacing
+        s = s .. options.spacing
+
+
+
+        s = s .. separatorgroup .. options.separator .. gengroup .. options.spacing
     end
 
     s = s .. '%#TabLineFill#'
@@ -106,13 +160,34 @@ function M.setup(user_options)
 
     function _G.s4rch_tabline()
         vim.highlight.create("TabLine", {
-            guibg=M.options.colors.disabled.bg,
-            guifg=M.options.colors.disabled.fg
+            guibg = M.options.colors.disabled.bg,
+            guifg = M.options.colors.disabled.fg
         }, false) -- No Selected
         vim.highlight.create("TabLineSel", {
-            guibg=M.options.colors.selected.bg,
-            guifg=M.options.colors.selected.fg
+            guibg = M.options.colors.selected.bg,
+            guifg = M.options.colors.selected.fg
         }, false) -- Selected
+        -- Separator
+        vim.highlight.create("TabLineSep", {
+            guibg = M.options.colors.disabled.bg,
+            guifg = M.options.colors.disabled.bg
+        }, false) -- No Selected
+        vim.highlight.create("TabLineSepSel", {
+            guibg = M.options.colors.disabled.bg,
+            guifg = M.options.colors.selected.bg
+        }, false) -- Selected
+        vim.highlight.create("TabLineSepNextSel", {
+            guibg = M.options.colors.selected.bg,
+            guifg = M.options.colors.disabled.bg
+        }, false) -- Next is Selected
+        vim.highlight.create("TabLineSepEnd", {
+            guibg = M.options.colors.empty,
+            guifg = M.options.colors.disabled.bg
+        }, false) -- End
+        vim.highlight.create("TabLineSepEndSel", {
+            guibg = M.options.colors.empty,
+            guifg = M.options.colors.selected.bg
+        }, false) -- End Selected
         vim.highlight.create("TabLineFill", {guibg=M.options.colors.empty}, false) -- Fill Empty
         return tabline(M.options)
     end
