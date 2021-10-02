@@ -23,6 +23,9 @@ function M.load_settings()
     local file, err = io.open (M.files_settings_path, "r")
     if file == nil then
         print("Couldn't open file: "..err)
+        print("Creating file")
+        local file = io.open(M.files_settings_path, "w")
+        file:write("")
     else
         local content = file:read("*a")
         local lines_arr = lines(content)
