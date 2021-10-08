@@ -30,6 +30,22 @@ require("colorizer").setup()
 
 require"surround".setup{}
 
+require("notify").setup({
+    -- Animation style (see below for details)
+    stages = "fade_in_slide_out",
+    -- Default timeout for notifications
+    timeout = 5000,
+    background_colour = "#000000",
+    -- Icons for the different levels
+    icons = {
+        ERROR = "",
+        WARN = "",
+        INFO = "",
+        DEBUG = "",
+        TRACE = "✎",
+    },
+})
+
 -- lsp
 require "lsp.init"
 require "completion.lua"

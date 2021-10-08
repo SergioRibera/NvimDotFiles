@@ -22,6 +22,7 @@ return require('packer').startup(function()
     -- Languajes Independents
     -- {'akinsho/flutter-tools.nvim', requires = 'nvim-lua/plenary.nvim'}
     use 'nvim-lua/plenary.nvim'
+    use 'rcarriga/nvim-notify'
     use 'simrat39/rust-tools.nvim'
 
     use "lewis6991/gitsigns.nvim"
