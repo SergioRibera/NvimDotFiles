@@ -15,6 +15,7 @@ I'll keep adding new features like snippets etc and clean the config , make neov
     - Lua (Nvim Library)
     - C/C++ (With clang)
     - Python
+    - Go
     - Rust
     - Javascript
     - Typescript
@@ -285,70 +286,10 @@ This is a custom system with autoload on open Nvim, this load last theme selecte
 
 ## Mappings
 The `leader` is a `Space` key.<br>
-The cell empty is equals to up cell. If you want modify any mapping, you can edit the file specified into table for each case.
-The modes in my keymapping:
-- i = Insert
-- s = Select
-- n = Normal
-- v = Visual
-- NerdTree = Being on NerdTree buffer
-
-|   **MODE**   |         **KEYMAP**        |                             **DESCRIPTION**                            |      **FILE TO MODIFY**      |
-|:--------:|:---------------------:|:------------------------------------------------------------------:|:------------------------:|
-|   i, s   |         `Tab`         |                     Next option into completion                    | `lua/completion/lua.lua` |
-|   i, s   |     `Shift + Tab`     |                     Last Option into completion                    |                          |
-|     n    |          `ga`         |         Show LSP Code Actios in Telescope (If are aviables)        |    `lua/lsp/init.lua`    |
-|     n    |          `gd`         |                          Go to Definition                          |                          |
-|     n    |      `Shift + k`      |                           Show LSP Hover                           |                          |
-|     n    |          `gi`         |                 Show implementations with Telescope                |                          |
-|     n    |       `Ctrl + k`      |                       Show LSP signature help                      |                          |
-|     n    |          `wa`         |                     Add workspace folder to LSP                    |                          |
-|     n    |          `wr`         |                   Remove workspace folder to LSP                   |                          |
-|     n    |          `wl`         |                     Show all workspace folders                     |                          |
-|     n    |          `rn`         |                         Rename var or text                         |                          |
-|     n    |          `gr`         |                   Show references with Telescope                   |                          |
-|     n    |          `e`          |                      Show LSP line diagnostics                     |                          |
-|     n    |          `q`          |                     Show loclist with Telescope                    |                          |
-|     n    |     `leader + tn`     |                          Cycle Teme color                          |  `lua/mappings/lua.lua`  |
-|     n    |       `Ctrl + h`      |                        Move to previous tab                        |                          |
-|     n    |       `Ctrl + l`      |                          Move to next tab                          |                          |
-|     n    |      `leader + y`     |          Copy selected text into clipboard (not only nvim)         |                          |
-|     n    |      `leader + p`     |                     Paste any text on clipboard                    |                          |
-|     n    |     `leader + ws`     |                         Open Split windows                         |                          |
-|     n    |     `leader + wh`     |                     Open Vertical Split windows                    |                          |
-|     v    |     `leader + ps`     |       Take Screenshot of selected text (Not implemented yet)       |                          |
-|     n    |      `leader + r`     |                          Refresh NvimTree                          |                          |
-|     n    |     `leader + cc`     |                       Comment only line stay                       |                          |
-|     n    |      `leader + c`     |                 Comment motion default (Kommentary)                |                          |
-|     v    |      `leader + c`     |                       Comment selected lines                       |                          |
-|     n    |      `leader + q`     |                Quit of buffer (equals to exec `:q`)                |                          |
-|     n    |      `leader + w`     |        Save changes on current buffer (equals to exec `:w`)        |                          |
-|     n    |     `leader + wq`     |              Save changes on current buffer and close              |                          |
-|     n    |       `Ctrl + x`      | Open terminal on bottom of the current buffer with size of 10 rows |                          |
-|     n    |      `leader + n`     |                           Toggle NvimTree                          |  `lua/nvimTree/lua.lua`  |
-| NerdTree | `o` or `Double Click` |                   Open file or toggle drop folder                  |                          |
-| NerdTree |          `v`          |                       Open in vertical split                       |                          |
-| NerdTree |          `s`          |                      Open in horizontal split                      |                          |
-| NerdTree |          `t`          |                           Open in new Tab                          |                          |
-| NerdTree |          `I`          |                        Toggle ignored files                        |                          |
-| NerdTree |          `a`          |              Create new file (with folder if necesary)             |                          |
-| NerdTree |          `d`          |            Delete file or folder (request confirmation)            |                          |
-| NerdTree |          `r`          |                        Rename File or folder                       |                          |
-| NerdTree |          `x`          |                         Cut folder or file                         |                          |
-| NerdTree |          `c`          |                         Copy folder o file                         |                          |
-| NerdTree |          `p`          |                Paste copied or cuted file or folder                |                          |
-| NerdTree |          `-`          |                         Go to directory up                         |                          |
-| NerdTree |          `q`          |                           Close NvimTree                           |                          |
-|     n    |     `leader + ff`     |                      Find Files with Telescope                     |  `lua/telescope/lua.lua` |
-|     n    |     `leader + fp`     |             Find and Preview Media Files with Telescope            |                          |
-|     n    |     `leader + gc`     |                   Show Git Commits with Telescope                  |                          |
-|     n    |     `leader + gb`     |                  Show Git Branches with Telescope                  |                          |
-|     n    |     `leader + gs`     |                   Show Git Status with Telescope                   |                          |
-|     n    |     `leader + gt`     |                    Show Git Stash with Telescope                   |                          |
-|    i,n   |     `ctl + y + ,`     |               Emmet writed for you is convert into html            |                          |
+To show all my keymaps you can excecute the keymap `<Leader>hk` and type any you want
 
 # TODO
 - [x] Add Multicursor support
 - [ ] Add my plugin for take screenshot
-- [ ] Add Amazing tab
+- [x] Add Amazing tab
 - [ ] Allow only one instance of Nvim
