@@ -50,14 +50,14 @@ g.nvim_tree_icons = {
 }
 
 -- Mappings for nvimtree
-vim.api.nvim_set_keymap(
+_G.register_map (
 "n",
 "<leader>n",
 ":NvimTreeToggle<CR>",
 {
     noremap = true,
     silent = true
-}
+}, "nvimtree", "Toggle between open/close NvimTree"
 )
 
 local tree_cb = require'nvim-tree.config'.nvim_tree_callback
