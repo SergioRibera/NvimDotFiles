@@ -47,12 +47,17 @@ require("notify").setup({
 })
 
 -- lsp
+require "mappings.lua"
 require "lsp.init"
 require "completion.lua"
 require "comments.lua"
-require "mappings.lua"
 require "treesitter.lua"
 
+require("cheatsheet").setup({
+    bundled_cheatsheets = true,
+    bundled_plugin_cheatsheets = true,
+    include_only_installed_plugins = true,
+})
 require "telescope.lua"
 require "nvimTree.lua"
 require "instant"

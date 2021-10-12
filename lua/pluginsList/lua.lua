@@ -36,6 +36,8 @@ return require('packer').startup(function()
     use "kyazdani42/nvim-tree.lua"
     use "kyazdani42/nvim-web-devicons"
     use "ryanoasis/vim-devicons"
+    use 'sudormrfbin/cheatsheet.nvim' -- cheatsheet for nvim
+    use 'xiyaowong/telescope-emoji.nvim'
     use "nvim-telescope/telescope.nvim"
     use "nvim-telescope/telescope-media-files.nvim"
     use "nvim-lua/popup.nvim"
