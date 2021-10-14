@@ -26,14 +26,15 @@ g.indent_blankline_context_patterns = { 'class', 'function', 'method', 'void', '
 --
 --  Neovide Configurations
 --
--- g.neovide_transparency=0.8                  " Neovide Transparency
-g.neovide_cursor_antialiasing = true        -- Nevovide cursor Antialiasing
--- g.neovide_cursor_vfx_mode = "railgun"       -- Neovide Efect on Move Cursor
-g.neovide_cursor_vfx_mode = "ripple"        -- Neovide
--- set guifont=Inconsolata:h15
--- set guifont=NotoSansMono:h15
--- set guifont=Hack:15;Iosevka:15;NotoSansMono:h15
-
+if g.neovide ~= nil then
+    -- g.neovide_transparency=0.8                  " Neovide Transparency
+    g.neovide_cursor_antialiasing = true        -- Nevovide cursor Antialiasing
+    -- g.neovide_cursor_vfx_mode = "railgun"       -- Neovide Efect on Move Cursor
+    g.neovide_cursor_vfx_mode = "ripple"        -- Neovide
+    -- set guifont=Inconsolata:h15
+    -- set guifont=NotoSansMono:h15
+    -- set guifont=Hack:15;Iosevka:15;NotoSansMono:h15
+end
 
 g.indent_blankline_filetype_exclude = {"help", "terminal"}
 g.indent_blankline_buftype_exclude = {"terminal"}
