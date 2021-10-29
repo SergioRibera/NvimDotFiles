@@ -34,6 +34,7 @@ if g.neovide ~= nil then
     -- set guifont=Inconsolata:h15
     -- set guifont=NotoSansMono:h15
     -- set guifont=Hack:15;Iosevka:15;NotoSansMono:h15
+    vim.o.guifont = 'FiraCode NF;Fira Code NF;CaskaydiaCove Nerd Font Mono'
 end
 
 g.indent_blankline_filetype_exclude = {"help", "terminal"}
@@ -103,6 +104,30 @@ Presence = require("presence"):setup({
     log_level         = nil,                        -- Log messages at or above this level (one of the following: "debug", "info", "warn", "error")
     debounce_timeout  = 30,                         -- Number of seconds to debounce TextChanged events (or calls to `:lua Presence:update(<buf>, true)`)
 })
+--[
+--
+--      Custom Folding text
+--
+--]
+function custom_fold_text()
+    local line = vim.fn.getline(vim.v.foldstart)
+    
+    local start_arrow = '⏤⏤⏤⏤► '
+    local lines='[ ' .. (vim.v.foldend - vim.v.foldstart + 1) .. ' lines ]'
+    -- local first_line= substitute(getline(vim.v.foldstart), '\v *', '', '')
+    -- return start_arrow .. lines .. ': ' .. l:first_line .. ' '
+    return start_arrow .. lines .. ': ' .. line .. ' '
+end
+
+
+-- folding
+-- vim.opt.foldmethod = 'indent'
+vim.opt.foldlevelstart = 20
+vim.opt.foldlevel = 20
+-- use wider line for folding
+vim.opt.fillchars = { fold = '⏤' }
+vim.opt.foldtext = 'v:lua.custom_fold_text()'
+
 
 --[
 --
