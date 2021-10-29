@@ -87,9 +87,14 @@ _G.register_map('s', '<S-TAB>', 'vsnip#available(-1)  ? "<Plug>(vsnip-jump-prev)
 --
 --  Save or Quit
 --
-_G.register_map("n", "<leader>q", ':q<CR>', {}, "save", "Quit buffer")
-_G.register_map("n", "<leader>w", ':w<CR>', {}, "save", "Write buffer")
+_G.register_map("n", "<leader>q", ':q!<CR>', {}, "save", "Quit buffer")
+_G.register_map("n", "<leader>w", ':w!<CR>', {}, "save", "Write buffer")
 _G.register_map("n", "<leader>wq", ':x<CR>', {}, "save", "Write and close buffer")
 
 -- OPEN TERMINALS --
-_G.register_map("n", "<C-b>", [[<Cmd> split term://zsh | resize 10 <CR>]], {}, "terminal", "Open new zsh terminal on bottom") -- open term bottom
+local os_type = vim.bo.fileformat:upper()
+if os_type == 'UNIX' or os_type == 'MAC' then
+    _G.register_map("n", "<C-b>", [[<Cmd> split term://zsh | resize 10 <CR>]], {}, "terminal", "Open new zsh terminal on bottom") -- open term bottom
+else
+    _G.register_map("n", "<C-b>", [[<Cmd> split term://powershell | resize 10 <CR>]], {}, "terminal", "Open new powershell terminal on bottom") -- open term bottom
+end
