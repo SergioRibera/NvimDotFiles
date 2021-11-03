@@ -1,5 +1,3 @@
-local M = {}
-
 local lsp_installer = require("nvim-lsp-installer")
 local lsp_installer_servers = require'nvim-lsp-installer.servers'
 local settings_manager = require 'nvim-conf'
@@ -44,7 +42,7 @@ local function setup_sign_icons()
     vim.cmd "hi LspDiagnosticsVirtualTextHint guifg=#b6bdca"
 end
 
-local on_attach = function (client, bufnr)
+local on_attach = function (_, bufnr)
     local function map(mode, lhs, rhs, opts, c, d)
         _G.register_map(mode, lhs, rhs, opts, c, d)
         -- vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
@@ -176,3 +174,6 @@ for s in pairs(servers) do
         notify("LSP Server \"" .. servers[s] .. "\" not recognized", "warn", { title="LSP Autoinstall", timeout=2000 })
     end
 end
+
+setup_handlers()
+setup_sign_icons()
