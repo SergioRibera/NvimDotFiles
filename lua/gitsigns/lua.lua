@@ -15,7 +15,7 @@ require("gitsigns").setup {
     update_debounce = 100,
     status_formatter = nil,
     use_decoration_api = true,
-    use_internal_diff = vim.bo.fileformat:upper() ~= 'UNIX' or vim.bo.fileformat:upper() ~= 'MAC',
+    use_internal_diff = not vim.fn.has("windows"),
 }
 
 local cmd = vim.cmd
