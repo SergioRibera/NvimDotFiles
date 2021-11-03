@@ -9,6 +9,7 @@ return require('packer').startup(function()
     use "norcalli/nvim-colorizer.lua"
 
     -- lsp stuff
+    use 'williamboman/nvim-lsp-installer'
     use "nvim-treesitter/nvim-treesitter"
     use "hrsh7th/nvim-compe"
     use "onsails/lspkind-nvim"
@@ -47,4 +48,7 @@ return require('packer').startup(function()
     use "blackCauldron7/surround.nvim"
     use 'jbyuki/instant.nvim' -- Collaborative Nvim
     use 'monaqa/dial.nvim' -- Increment/Decrement number and more
+
+    -- My Plugins Customs
+    use 'SergioRibera/nvim-conf'
 end)

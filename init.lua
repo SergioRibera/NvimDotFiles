@@ -1,5 +1,11 @@
 require "pluginsList.lua"
 require "file-icons.lua"
+require "nvim-conf".setup{
+    conf_file = vim.fn.stdpath("config") .. "/lua_settings.conf",
+    load_event = "setup",
+    on_load = function (_)
+    end
+}
 
 require "misc-utils.lua"
 require "tabline.lua".setup {
@@ -48,7 +54,7 @@ require("notify").setup({
 
 -- lsp
 require "mappings.lua"
-require "lsp.init"
+require "lsp"
 require "completion.lua"
 require "comments.lua"
 require "treesitter.lua"

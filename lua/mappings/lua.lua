@@ -1,7 +1,5 @@
-local settings_manager = require '../misc-utils/settings'
+local settings_manager = require 'nvim-conf'
 local notify = require("notify")
-
-settings_manager.load_settings()
 
 _G.my_mapping_table = {}
 function _G.register_map(m, ls, rs, opts, c, d)
