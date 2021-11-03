@@ -87,4 +87,4 @@ require("lspkind").init(
 -- vim.api.nvim_exec([[
 -- au BufEnter term://* setlocal nonumber
 -- ]], false)
--- 
+--
