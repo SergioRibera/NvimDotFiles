@@ -62,8 +62,8 @@ _G.register_map("n", "<C-h>", ":tabprevious<Cr>", {}, "tabs", "Go to preview tab
 _G.register_map("n", "<C-l>", ":tabnext<Cr>", {}, "tabs", "Go to next tab") -- Move to next tab
 _G.register_map("n", "<leader>y", '"+y', {}, "clipboard", "Copy into system clipboard") -- Copy any selected text
 _G.register_map("n", "<leader>p", '"+p', {}, "clipboard", "Paste from system clipboard") -- Paste any text
-_G.-- register_map("", "<leader>ws", ":split<Cr>") -- Open Split windows
-_G.-- register_map("", "<leader>wh", ":vsplit<Cr>") -- Open Vertical split windows
+-- _G.register_map("", "<leader>ws", ":split<Cr>") -- Open Split windows
+-- _G.register_map("", "<leader>wh", ":vsplit<Cr>") -- Open Vertical split windows
 _G.register_map("v", "<leader>ps", ":TakeScreenShot<Cr>", {}, "screenshot", "Take screenshot (SergioRibera/nvim-silicon)") -- Take Screenshot (require SergioRibera/vim-screenshot plugin)
 
 --
