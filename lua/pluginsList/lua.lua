@@ -8,13 +8,21 @@ return require('packer').startup(function()
     use "norcalli/nvim-base16.lua"
     use "norcalli/nvim-colorizer.lua"
 
+    -- Completion stuff
+    use 'hrsh7th/cmp-nvim-lsp'
+    use 'hrsh7th/cmp-buffer'
+    use 'hrsh7th/cmp-path'
+    use 'hrsh7th/cmp-cmdline'
+    use 'hrsh7th/nvim-cmp'
+
+    -- Snipets.
+    use 'hrsh7th/cmp-vsnip'
+    use 'hrsh7th/vim-vsnip'
+
     -- lsp stuff
     use 'williamboman/nvim-lsp-installer'
     use "nvim-treesitter/nvim-treesitter"
-    use "hrsh7th/nvim-compe"
     use "onsails/lspkind-nvim"
-    use 'hrsh7th/vim-vsnip'
-    use 'hrsh7th/vim-vsnip-integ'
     use 'neovim/nvim-lspconfig'
     use 'mattn/emmet-vim' -- Impllemt emmet for html/js/css
     use "terrortylor/nvim-comment"

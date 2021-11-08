@@ -1,89 +1,90 @@
-vim.cmd [[packadd nvim-lspconfig]]
-vim.cmd [[packadd nvim-compe]]
+local cmp = require'cmp'
+local lspkind = require'lspkind'
 
-vim.o.completeopt = "menuone,noselect"
+vim.o.completeopt = "menu,menuone,noselect"
 
-require "compe".setup {
-    enabled = true,
-    autocomplete = true,
-    debug = false,
-    min_length = 1,
-    preselect = "enable",
-    throttle_time = 80,
-    source_timeout = 200,
-    incomplete_delay = 400,
-    max_abbr_width = 100,
-    max_kind_width = 100,
-    max_menu_width = 100,
-    documentation = true,
-    source = {
-        path = true,
-        buffer = true,
-        calc = true,
-        vsnip = true,
-        nvim_lsp = true,
-        nvim_lua = true,
-        spell = true,
-        tags = true,
-        snippets_nvim = true,
-        treesitter = true
+-- Local functions
+local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+local feedkey = function(key, mode)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
+
+--[
+--
+--      Cmp Config
+--
+--]
+cmp.setup({
+    snippet = {
+        expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip`.
+        end,
+    },
+    formatting = {
+        format = lspkind.cmp_format({
+            with_text = true,
+            maxwidth = 50,
+            menu = { buffer = "[Buf]", cmp_tabnine = "", nvim_lsp = "[LSP]", dictionary = "[Dict]", vsnip = "[Vsnip]" }
+        })
+    },
+    mapping = {
+        ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif vim.fn["vsnip#available"]() == 1 then
+                feedkey("<Plug>(vsnip-expand-or-jump)", "")
+            elseif has_words_before() then
+                cmp.complete()
+            else
+                fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+            end
+        end, {"i", "s"}),
+        ["<S-Tab>"] = cmp.mapping(function()
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+                feedkey("<Plug>(vsnip-jump-prev)", "")
+            end
+        end, {"i", "s"}),
+        ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+        ['<CR>'] = cmp.mapping({
+            i = cmp.mapping.confirm({ select = true }),
+            c = cmp.mapping.confirm({ select = false }),
+        }),
+    },
+    sources = cmp.config.sources({
+        { name = 'path' },
+        { name = 'nvim_lsp' },
+        { name = 'vsnip' }, -- For vsnip.
+        {name = 'omni'},
+    }, {
+        { name = 'buffer' },
+    })
+})
+
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+    sources = {
+        { name = 'buffer' }
     }
-}
-local t = function(str)
-    return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
+})
 
-local check_back_space = function()
-    local col = vim.fn.col(".") - 1
-    if col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
-        return true
-    else
-        return false
-    end
-end
--- tab completion
-
-_G.tab_complete = function()
-    if vim.fn['vsnip#jumpable'](1) > 0 then
-        return t '<Plug>(vsnip-jump-next)'
-    end
-    if vim.fn.pumvisible() > 0 then
-        return t '<C-n>'
-    end
-    if check_back_space() then
-        return t '<TAB>'
-    end
-    if vim.fn['vsnip#expandable']() > 0 then
-        return t '<Plug>(vsnip-expand)'
-    end
-
-    return vim.fn["compe#complete"]()
-end
-_G.s_tab_complete = function()
-    if vim.fn.pumvisible() == 1 then
-        return t "<C-p>"
-    elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-        return t "<Plug>(vsnip-jump-prev)"
-    else
-        return t "<S-Tab>"
-    end
-end
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+    sources = cmp.config.sources({
+        { name = 'path' }
+    }, {
+        { name = 'cmdline' }
+    })
+})
 
 --  mappings
 
--- _G.register_map("i", "<Tab>", "v:lua.tab_complete()", {expr = true}, "completion", "")
--- _G.register_map("s", "<Tab>", "v:lua.tab_complete()", {expr = true}, "completion", "")
--- _G.register_map("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true}, "completion", "")
--- _G.register_map("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true}, "completion", "")
-
-function _G.completions()
-    local npairs = require("nvim-autopairs")
-    if vim.fn.pumvisible() == 1 then
-        if vim.fn.complete_info()["selected"] ~= -1 then
-            return vim.fn["compe#confirm"]("<CR>")
-        end
-    end
-    return npairs.check_break_line_char()
-end
-
-_G.register_map("i", "<CR>", "v:lua.completions()", {expr = true})
+-- _G.register_map("i", "<Tab>", "v:lua.tab_complete()", {expr = true, noremap = false}, "completion", "Next suggest to complete")
+-- _G.register_map("s", "<Tab>", "v:lua.tab_complete()", {expr = true, noremap = false}, "completion", "Next suggest to complete")
+-- _G.register_map("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true, noremap = false}, "completion", "Previous suggest to complete")
+-- _G.register_map("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true, noremap = false}, "completion", "Previous suggest to complete")
+vim.cmd("autocmd FileType TelescopePrompt lua require('cmp').setup.buffer { enabled = false }")
