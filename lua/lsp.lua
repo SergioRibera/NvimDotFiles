@@ -23,23 +23,23 @@ local function setup_handlers()
     )
 end
 local function setup_sign_icons()
-    local signs = { Error = ' ', Warning = ' ', Hint = ' ', Information = ' ' }
+    local signs = { Error = ' ', Warn = ' ', Hint = ' ', Info = ' ' }
 
     for type, icon in pairs(signs) do
-        local hl = 'LspDiagnosticsSign' .. type
+        local hl = 'DiagnosticSign' .. type
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
     end
-    vim.cmd "hi LspDiagnosticsSignError guifg=#f9929b"
-    vim.cmd "hi LspDiagnosticsVirtualTextError guifg=#BF616A"
+    vim.cmd "hi DiagnosticSignError guifg=#f9929b"
+    vim.cmd "hi DiagnosticVirtualTextError guifg=#BF616A"
 
-    vim.cmd "hi LspDiagnosticsSignWarning guifg=#EBCB8B"
-    vim.cmd "hi LspDiagnosticsVirtualTextWarning guifg=#EBCB8B"
+    vim.cmd "hi DiagnosticSignWarning guifg=#EBCB8B"
+    vim.cmd "hi DiagnosticVirtualTextWarning guifg=#EBCB8B"
 
-    vim.cmd "hi LspDiagnosticsSignInformation guifg=#A3BE8C"
-    vim.cmd "hi LspDiagnosticsVirtualTextInformation guifg=#A3BE8C"
+    vim.cmd "hi DiagnosticSignInformation guifg=#A3BE8C"
+    vim.cmd "hi DiagnosticVirtualTextInformation guifg=#A3BE8C"
 
-    vim.cmd "hi LspDiagnosticsSignHint guifg=#b6bdca"
-    vim.cmd "hi LspDiagnosticsVirtualTextHint guifg=#b6bdca"
+    vim.cmd "hi DiagnosticSignHint guifg=#b6bdca"
+    vim.cmd "hi DiagnosticVirtualTextHint guifg=#b6bdca"
 end
 
 local on_attach = function (_, bufnr)
@@ -73,14 +73,17 @@ local on_attach = function (_, bufnr)
     -- map("n", "q", "<cmd>lua require'telescope.builtin'.loclist()<CR>", opts, "lsp", "")
 end
 
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 lsp_installer.on_server_ready(function(server)
     local opts = {
         on_attach = on_attach,
+        capabilities = capabilities
     }
 
     if server.name == "rust_analyzer" then
         opts = {
             on_attach = on_attach,
+            capabilities = capabilities,
             settings = {
                 ["rust-analyzer"] = {
                     assist = {
@@ -99,6 +102,7 @@ lsp_installer.on_server_ready(function(server)
     elseif server.name == "sumneko_lua" then
         opts = {
             on_attach = on_attach,
+            capabilities = capabilities,
             root_dir = function()
                 return vim.loop.cwd()
             end,
@@ -126,6 +130,7 @@ lsp_installer.on_server_ready(function(server)
     elseif server.name == "omnisharp" then
         opts = {
             on_attach = on_attach,
+            capabilities = capabilities,
             settings = {
                 FormattingOptions = {
                     EnableEditorConfigSupport = true
@@ -152,6 +157,8 @@ lsp_installer.on_server_ready(function(server)
     server:setup(opts)
 end)
 
+setup_handlers()
+setup_sign_icons()
 --
 -- Local server required
 --
@@ -174,6 +181,3 @@ for s in pairs(servers) do
         notify("LSP Server \"" .. servers[s] .. "\" not recognized", "warn", { title="LSP Autoinstall", timeout=2000 })
     end
 end
-
-setup_handlers()
-setup_sign_icons()
