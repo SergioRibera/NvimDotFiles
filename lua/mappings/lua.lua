@@ -21,7 +21,7 @@ local base16 = require "base16"
 local themes_names = {
     "monokai", "onedark", "nord", "flat", "google-dark", "solarized-dark", "tomorrow-night",
     "ocean", "oceanicnext", "macintosh",
-    "gruvbox-dark-hard", "gruvbox-dark-medium", "gruvbox-dark-pale", "gruvbox-dark-soft", 
+    "gruvbox-dark-hard", "gruvbox-dark-medium", "gruvbox-dark-pale", "gruvbox-dark-soft",
     -- "gruvbox-light-hard", "gruvbox-light-medium", "gruvbox-light-pale", "gruvbox-light-soft"
 }
 local log_cycle_theme = false
@@ -65,22 +65,6 @@ _G.register_map("n", "<leader>p", '"+p', {}, "clipboard", "Paste from system cli
 _G.-- register_map("", "<leader>ws", ":split<Cr>") -- Open Split windows
 _G.-- register_map("", "<leader>wh", ":vsplit<Cr>") -- Open Vertical split windows
 _G.register_map("v", "<leader>ps", ":TakeScreenShot<Cr>", {}, "screenshot", "Take screenshot (SergioRibera/nvim-silicon)") -- Take Screenshot (require SergioRibera/vim-screenshot plugin)
-
--- Snippets enable jump to next cursor
-_G.register_map('i', '<TAB>', 'v:lua.tab_complete()', { expr = true, noremap = false }, "completion", "Next completion suggest")
-
-_G.register_map('i', '<S-TAB>', 'pumvisible() ? "<C-p>" : vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<S-TAB>"', {
-  expr = true,
-  noremap = false
-}, "completion", "Preview completion suggest")
-_G.register_map('s', '<TAB>', 'vsnip#available(1)  ? "<Plug>(vsnip-expand-or-jump)" : "<TAB>"', {
-  expr = true,
-  noremap = false
-}, "completion", "Next completion suggest")
-_G.register_map('s', '<S-TAB>', 'vsnip#available(-1)  ? "<Plug>(vsnip-jump-prev)" : "<S-TAB>"', {
-  expr = true,
-  noremap = false
-}, "completion", "Preview completion suggest")
 
 --
 --  Save or Quit
