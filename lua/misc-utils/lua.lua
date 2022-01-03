@@ -4,7 +4,7 @@ local g = vim.g
 g.instant_username = "s4rch"
 g.vsnip_snippet_dir = "~/.config/nvim/snippets"
 g.mapleader = " "
-g.auto_save = 0
+g.auto_save = 1
 g.kommentary_create_default_mappings = false
 
 -- colorscheme related stuff
@@ -23,18 +23,21 @@ g.indent_blankline_use_treesitter = true
 g.indent_blankline_context_patterns = { 'class', 'function', 'method', 'void', 'keyword' }
 -- g.indent_blankline_char = "▏"
 
+-- Copilot Configs
+g.copilot_no_tab_map = true
+g.copilot_assume_mapped = true
+g.copilot_tab_fallback = ""
+
+
 --
 --  Neovide Configurations
 --
 if g.neovide ~= nil then
-    -- g.neovide_transparency=0.8                  " Neovide Transparency
+    g.neovide_transparency=0.8                  -- Neovide Transparency
     g.neovide_cursor_antialiasing = true        -- Nevovide cursor Antialiasing
     -- g.neovide_cursor_vfx_mode = "railgun"       -- Neovide Efect on Move Cursor
     vim.g.neovide_cursor_vfx_mode = "ripple"        -- Neovide
-    -- set guifont=Inconsolata:h15
-    -- set guifont=NotoSansMono:h15
-    -- set guifont=Hack:15;Iosevka:15;NotoSansMono:h15
-    vim.o.guifont = 'FiraCode NF;Fira Code NF;CaskaydiaCove Nerd Font Mono'
+    vim.o.guifont = 'FiraCode Nerd Font:10;CaskaydiaCove Nerd Font:10'
 end
 
 g.indent_blankline_filetype_exclude = {"help", "terminal"}
@@ -76,7 +79,7 @@ opt("b", "shiftwidth", 4)
 -- colorscheme related stuff
 -- opt("o", "nolist", true)
 -- opt("o", "guifont", "Hack:15")
-opt("o", "guifont", "FiraCode Nerd Font,DejaVuSans:15")
+-- opt("o", "guifont", "FiraCode Nerd Font,DejaVuSans:15")
 opt("w", "rnu", true)
 opt("o", "modelines", 0)
 opt("o", "formatoptions", "tcqrn1")
@@ -111,7 +114,7 @@ Presence = require("presence"):setup({
 --]
 function custom_fold_text()
     local line = vim.fn.getline(vim.v.foldstart)
-    
+
     local start_arrow = '⏤⏤⏤⏤► '
     local lines='[ ' .. (vim.v.foldend - vim.v.foldstart + 1) .. ' lines ]'
     -- local first_line= substitute(getline(vim.v.foldstart), '\v *', '', '')

@@ -91,17 +91,12 @@ cmd "hi TelescopePreviewBorder guifg = #525865"
 
 
 -- Custom show keymaps
-local actions = require "telescope.actions"
-local action_state = require "telescope.actions.state"
 local finders = require "telescope.finders"
 local pickers = require "telescope.pickers"
-local sorters = require "telescope.sorters"
-local utils = require "telescope.utils"
 local config = require("telescope.config").values
 local entry_display = require('telescope.pickers.entry_display')
 
 function _G.show_my_keymaps(opts)
-    local modes = { "n", "i", "c" }
     local keymaps_table = _G.my_mapping_table
 
     -- for _, mode in pairs(modes) do
@@ -111,7 +106,7 @@ function _G.show_my_keymaps(opts)
     --     end
     -- end
 
-    pickers.new(opts, {
+    pickers.new({
         prompt_title = "My Custom Key Maps",
         finder = finders.new_table {
             results = keymaps_table,
@@ -180,7 +175,7 @@ function _G.show_my_keymaps(opts)
 --                     print "[telescope] Nothing currently selected"
 --                     return
 --                 end
--- 
+--
 --                 vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(selection.value.lhs, true, false, true), "t", true)
 --                 return actions.close(prompt_bufnr)
 --             end)

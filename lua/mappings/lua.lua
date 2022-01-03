@@ -2,6 +2,14 @@ local settings_manager = require 'nvim-conf'
 local notify = require("notify")
 
 _G.my_mapping_table = {}
+local mapping_table_contains = function (t, v)
+    for _, value in ipairs(t) do
+        if value.mode == v.mode and value.lhs == v.lhs and value.category == v.category then
+            return true
+        end
+    end
+    return false
+end
 function _G.register_map(m, ls, rs, opts, c, d)
     local options = {noremap = true}
     if opts then
@@ -11,7 +19,10 @@ function _G.register_map(m, ls, rs, opts, c, d)
     if m == "" then
         m = " "
     end
-    table.insert(_G.my_mapping_table, { mode = m, lhs = ls, rhs = rs, options = opts, category = c, description = d })
+    local data = { mode = m, lhs = ls, rhs = rs, options = opts, category = c, description = d }
+    if not mapping_table_contains(_G.my_mapping_table, data) then
+        table.insert(_G.my_mapping_table, data)
+    end
 end
 
 --
@@ -22,7 +33,7 @@ local themes_names = {
     "monokai", "onedark", "nord", "flat", "google-dark", "solarized-dark", "tomorrow-night",
     "ocean", "oceanicnext", "macintosh",
     "gruvbox-dark-hard", "gruvbox-dark-medium", "gruvbox-dark-pale", "gruvbox-dark-soft",
-    -- "gruvbox-light-hard", "gruvbox-light-medium", "gruvbox-light-pale", "gruvbox-light-soft"
+    "gruvbox-light-hard", "gruvbox-light-medium", "gruvbox-light-pale", "gruvbox-light-soft"
 }
 local log_cycle_theme = false
 local base16_position = settings_manager.get_value("current_theme", 1)
@@ -76,7 +87,15 @@ _G.register_map("n", "<leader>wq", ':x<CR>', {}, "save", "Write and close buffer
 -- OPEN TERMINALS --
 local os_type = vim.bo.fileformat:upper()
 if os_type == 'UNIX' or os_type == 'MAC' then
-    _G.register_map("n", "<C-b>", [[<Cmd> split term://zsh | resize 10 <CR>]], {}, "terminal", "Open new zsh terminal on bottom") -- open term bottom
+    -- Detect if exists a command
+    local default_terminal = vim.fn.expand("$SHELL")
+    if default_terminal == "/bin/zsh" or default_terminal == '/usr/bin/zsh' then
+        _G.register_map("n", "<C-b>", [[<Cmd> split term://zsh | resize 10 <CR>]], {}, "terminal", "Open new zsh terminal on bottom") -- open term bottom
+    elseif default_terminal == '/bin/fish' or default_terminal == '/usr/bin/fish' then
+        _G.register_map("n", "<C-b>", [[<Cmd> split term://fish | resize 10 <CR>]], {}, "terminal", "Open new fish terminal on bottom") -- open term bottom
+    else
+        _G.register_map("n", "<C-b>", [[<Cmd> split term://bash | resize 10 <CR>]], {}, "terminal", "Open new terminal on bottom") -- open term bottom
+    end
 else
     _G.register_map("n", "<C-b>", [[<Cmd> split term://powershell | resize 10 <CR>]], {}, "terminal", "Open new powershell terminal on bottom") -- open term bottom
 end

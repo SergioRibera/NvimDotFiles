@@ -14,6 +14,7 @@ return require('packer').startup(function()
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/nvim-cmp'
+    use 'github/copilot.vim'
 
     -- Snipets.
     use 'hrsh7th/cmp-vsnip'
@@ -29,13 +30,10 @@ return require('packer').startup(function()
     use 'simrat39/symbols-outline.nvim'
 
     -- Languajes Independents
-    -- {'akinsho/flutter-tools.nvim', requires = 'nvim-lua/plenary.nvim'}
     use 'nvim-lua/plenary.nvim'
     use 'rcarriga/nvim-notify'
-    use 'simrat39/rust-tools.nvim'
 
     use "lewis6991/gitsigns.nvim"
-    use "akinsho/nvim-bufferline.lua"
     use 'hoob3rt/lualine.nvim'
     use "windwp/nvim-autopairs"
     use "alvan/vim-closetag"
