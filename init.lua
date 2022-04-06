@@ -1,5 +1,5 @@
-require "pluginsList.lua"
-require "file-icons.lua"
+require "plugins"
+require "file-icons"
 require "nvim-conf".setup{
     conf_file = vim.fn.stdpath("config") .. "/lua_settings.conf",
     load_event = "setup",
@@ -30,7 +30,7 @@ require "tabline.lua".setup {
         empty = "#282c34"
     }
 }
-require "statusline.lua"
+require "statusline"
 
 require("colorizer").setup()
 
@@ -53,23 +53,23 @@ require("notify").setup({
 })
 
 -- lsp
-require "mappings.lua"
+require "mappings"
 require "lsp"
-require "completion.lua"
-require "comments.lua"
-require "treesitter.lua"
+require "completion"
+require "comments"
+require "treesitter"
 
 require("cheatsheet").setup({
     bundled_cheatsheets = true,
     bundled_plugin_cheatsheets = true,
     include_only_installed_plugins = true,
 })
-require "telescope.lua"
-require "nvimTree.lua"
+require "mytelescope"
+require "nvimtree"
 require "instant"
 
 -- git signs
-require "gitsigns.lua"
+require "gitsigns"
 
 require("nvim-autopairs").setup()
 -- require("nvim-autopairs").disable()
@@ -83,8 +83,3 @@ require("lspkind").init(
     }
 }
 )
--- hide line numbers in terminal windows
--- vim.api.nvim_exec([[
--- au BufEnter term://* setlocal nonumber
--- ]], false)
---

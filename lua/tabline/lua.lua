@@ -48,21 +48,9 @@ function M.handle_close_tab(buf_id)
     handle_user_command(close, buf_id)
 end
 
--- vim.cmd [[
--- function! tabline_lua#handle_close_tab(minwid, clicks, btn, modifiers) abort
---  call luaeval("require'tabline.lua'.handle_close_tab(_A)", a:minwid)
--- endfunction
--- ]]
-
 
 ---Add click action to a component
----@param func_name string
----@param id number
----@param component string
----@return string
 function M.make_clickable(id, func_name, component)
-  -- v:lua does not support function references in vimscript so
-  -- the only way to implement this is using autoload vimscript functions
   return "%" .. id .. "@tabline_lua#" .. func_name .. "@" .. component
 end
 

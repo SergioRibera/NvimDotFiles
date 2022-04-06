@@ -22,7 +22,6 @@ g.ident_blankline_ident_level = 4
 g.indent_blankline_show_current_context = true
 g.indent_blankline_use_treesitter = true
 g.indent_blankline_context_patterns = { 'class', 'function', 'method', 'void', 'keyword' }
--- g.indent_blankline_char = "▏"
 
 -- Copilot Configs
 g.copilot_no_tab_map = true
@@ -77,10 +76,6 @@ opt("o", "clipboard", "unnamedplus")
 opt("b", "expandtab", true)
 opt("b", "shiftwidth", 4)
 
--- colorscheme related stuff
--- opt("o", "nolist", true)
--- opt("o", "guifont", "Hack:15")
--- opt("o", "guifont", "FiraCode Nerd Font,DejaVuSans:15")
 opt("w", "rnu", true)
 opt("o", "modelines", 0)
 opt("o", "formatoptions", "tcqrn1")
@@ -118,8 +113,6 @@ function custom_fold_text()
 
     local start_arrow = '⏤⏤⏤⏤► '
     local lines='[ ' .. (vim.v.foldend - vim.v.foldstart + 1) .. ' lines ]'
-    -- local first_line= substitute(getline(vim.v.foldstart), '\v *', '', '')
-    -- return start_arrow .. lines .. ': ' .. l:first_line .. ' '
     return start_arrow .. lines .. ': ' .. line .. ' '
 end
 
