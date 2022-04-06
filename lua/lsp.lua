@@ -10,6 +10,12 @@ local notify = require("notify")
 --
 --]
 
+_G.load_inlay_hints = function ()
+    require"lsp_extensions".inlay_hints{ prefix = " » ", highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"}}
+end
+
+vim.api.nvim_command('autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua _G.load_inlay_hints()')
+
 local function setup_handlers()
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
         vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -67,7 +73,7 @@ local on_attach = function (_, bufnr)
     map("n", "<leader>lw", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts, "lsp", "List folders on workspace")
     map("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts, "lsp", "Rename definition")
     map("n", "<leader>gr", "<cmd>lua require'telescope.builtin'.lsp_references()<CR>", opts, "lsp", "Show all references of definition")
-    map("n", "<leader>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts, "lsp", "Show diagnostic on current line")
+    map("n", "<leader>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts, "lsp", "Show diagnostic on current line")
     map("n", "<leader>ld", [[<Cmd>lua require('telescope.builtin').lsp_document_diagnostics()<CR>]], opts, "telescope", "Show diagnostic on current file")
     map("n", "<leader>ws", [[<Cmd>lua require('telescope.builtin').lsp_workspace_symbols()<CR>]], opts, "telescope", "Show all symbols on workspace")
     map("n", "<C-f>", [[<Cmd>lua vim.lsp.buf.formatting({ tabSize = vim.o.shiftwidth or 4 })<CR>]], opts, "lsp", "Format the current document with LSP")
@@ -82,26 +88,7 @@ lsp_installer.on_server_ready(function(server)
         capabilities = capabilities
     }
 
-    if server.name == "rust_analyzer" then
-        opts = {
-            on_attach = on_attach,
-            capabilities = capabilities,
-            settings = {
-                ["rust-analyzer"] = {
-                    assist = {
-                        importMergeBehavior = "last",
-                        importPrefix = "by_self",
-                    },
-                    cargo = {
-                        loadOutDirsFromCheck = true
-                    },
-                    procMacro = {
-                        enable = true
-                    },
-                }
-            }
-        }
-    elseif server.name == "sumneko_lua" then
+    if server.name == "sumneko_lua" then
         opts = {
             on_attach = on_attach,
             capabilities = capabilities,
@@ -164,7 +151,7 @@ setup_sign_icons()
 --
 -- Local server required
 --
-local servers_required_raw = settings_manager.get_value("lsp_servers", "tsserver,pyright,jsonls,sumneko_lua")
+local servers_required_raw = settings_manager.get_value("lsp_servers", "sumneko_lua")
 
 --[
 --
@@ -173,7 +160,6 @@ local servers_required_raw = settings_manager.get_value("lsp_servers", "tsserver
 --]
 local servers = split_func(servers_required_raw, ',')
 for s in pairs(servers) do
-    -- print(servers[s])
     local ok, each_server= lsp_installer_servers.get_server(servers[s])
     if ok then
         if not each_server:is_installed() then

@@ -15,12 +15,14 @@ return require('packer').startup(function()
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/nvim-cmp'
     use 'github/copilot.vim'
+    use 'nvim-lua/lsp_extensions.nvim'
 
     -- Snipets.
     use 'hrsh7th/cmp-vsnip'
     use 'hrsh7th/vim-vsnip'
 
     -- lsp stuff
+    use 'puremourning/vimspector'
     use 'williamboman/nvim-lsp-installer'
     use "nvim-treesitter/nvim-treesitter"
     use "onsails/lspkind-nvim"
@@ -51,7 +53,7 @@ return require('packer').startup(function()
 
     -- misc
     use 'andweeb/presence.nvim' -- display nvim on discord
-    use "blackCauldron7/surround.nvim"
+    use 'ur4ltz/surround.nvim'
     use 'jbyuki/instant.nvim' -- Collaborative Nvim
     use 'monaqa/dial.nvim' -- Increment/Decrement number and more
 

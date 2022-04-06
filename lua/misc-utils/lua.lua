@@ -4,7 +4,8 @@ local g = vim.g
 g.instant_username = "s4rch"
 g.vsnip_snippet_dir = "~/.config/nvim/snippets"
 g.mapleader = " "
-g.auto_save = 1
+g.autoread = true
+g.vimspector_enable_mappings = 'HUMAN'
 g.kommentary_create_default_mappings = false
 
 -- colorscheme related stuff
@@ -33,13 +34,13 @@ g.copilot_tab_fallback = ""
 --  Neovide Configurations
 --
 if g.neovide ~= nil then
-    g.neovide_transparency=0.8                  -- Neovide Transparency
+    -- g.neovide_transparency=0.8                  -- Neovide Transparency
     g.neovide_cursor_antialiasing = true        -- Nevovide cursor Antialiasing
     -- g.neovide_cursor_vfx_mode = "railgun"       -- Neovide Efect on Move Cursor
     vim.g.neovide_cursor_vfx_mode = "ripple"        -- Neovide
-    vim.o.guifont = 'FiraCode Nerd Font:10;CaskaydiaCove Nerd Font:10'
 end
 
+vim.o.guifont = 'FiraCode Nerd Font:10;CaskaydiaCove Nerd Font:10'
 g.indent_blankline_filetype_exclude = {"help", "terminal"}
 g.indent_blankline_buftype_exclude = {"terminal"}
 
@@ -137,9 +138,9 @@ vim.opt.foldtext = 'v:lua.custom_fold_text()'
 --      Autocommands
 --
 --]
--- vim.cmd("au FocusGained,BufEnter * :checktime")
--- vim.cmd("autocmd BufWrite * mkview")
--- vim.cmd("autocmd BufRead * silent! loadview")
+vim.api.nvim_command("autocmd BufWritePre,BufWinLeave ?* silent! mkview")
+vim.api.nvim_command("autocmd BufWinEnter ?* silent! loadview")
+vim.api.nvim_command("autocmd TextChanged,TextChangedI * silent! write")
 
 local M = {}
 
@@ -151,5 +152,20 @@ end
 function M.has_width_gt(cols)
     -- Check if the windows width is greater than a given number of columns
     return vim.fn.winwidth(0) / 2 > cols
+end
+
+M.isModuleAviable = function(name)
+    if package.loaded[name] then
+        return true
+    else
+        for _, searcher in ipairs(package.searchers or package.loaders) do
+            local loader = searcher(name)
+            if type(loader) == 'function' then
+                package.preload[name] = loader
+                return true
+            end
+        end
+        return false
+    end
 end
 return M

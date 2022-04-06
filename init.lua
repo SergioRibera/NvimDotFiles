@@ -76,7 +76,7 @@ require("nvim-autopairs").setup()
 
 require("lspkind").init(
 {
-    with_text = true,
+    mode = 'symbol_text',
     symbol_map = {
         Folder = "",
         Enum = ""

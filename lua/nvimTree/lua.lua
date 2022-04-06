@@ -9,15 +9,6 @@ g.nvim_tree_group_empty = 1
 g.nvim_tree_git_hl = 1
 g.nvim_tree_root_folder_modifier = ":~"
 g.nvim_tree_special_files = { 'README.md', 'Makefile', 'MAKEFILE' }
-g.nvim_tree_window_picker_exclude = {
-    filetype = {
-        'packer',
-        'qf'
-    },
-    buftype = {
-        'terminal'
-    }
-}
 g.nvim_tree_show_icons = {
     git = 1,
     folders = 1,
@@ -59,12 +50,6 @@ cmd "hi NvimTreeFolderName guifg = #61afef"
 cmd "hi NvimTreeIndentMarker guifg=#383c44"
 
 require'nvim-tree'.setup {
-    update_cwd          = true,
-    update_focused_file = {
-        enable      = true,
-        update_cwd  = true,
-        ignore_list = {}
-    },
     diagnostics = {
         enable = true,
         icons = {
@@ -74,14 +59,30 @@ require'nvim-tree'.setup {
             error = "",
         }
     },
+    update_focused_file = {
+        enable      = true,
+        update_cwd  = false,
+        ignore_list = {}
+    },
+    system_open = {
+        cmd  = nil,
+        args = {}
+    },
     filters = {
         dotfiles = false,
         custom = { ".git", "node_modules", ".cache", ".vscode", ".vs", "*.meta" }
     },
+    git = {
+        enable = true,
+        ignore = true,
+        timeout = 500,
+    },
     view = {
         width = 30,
+        height = 30,
+        hide_root_folder = false,
         side = 'left',
-        auto_resize = true,
+        preserve_window_proportions = true,
         mappings = {
             custom_only = false,
             list = {
@@ -102,6 +103,31 @@ require'nvim-tree'.setup {
                 { key = "p", cb = tree_cb("paste") },
                 { key = "-", cb = tree_cb("dir_up") },
                 { key = "q", cb = tree_cb("close") }
+            }
+        },
+        number = false,
+        relativenumber = false,
+        signcolumn = "yes"
+    },
+    trash = {
+        cmd = "trash",
+        require_confirm = true
+    },
+    actions = {
+        change_dir = {
+            enable = false,
+            global = false,
+        },
+        open_file = {
+            quit_on_open = false,
+            resize_window = false,
+            window_picker = {
+                enable = true,
+                chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+                exclude = {
+                    filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame", },
+                    buftype  = { "nofile", "terminal", "help", },
+                }
             }
         }
     }

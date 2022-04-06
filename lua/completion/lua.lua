@@ -18,11 +18,11 @@ end
 --
 --]
 cmp.setup({
-    -- snippet = {
-    --     expand = function(args)
-    --         vim.fn["vsnip#anonymous"](args.body) -- For `vsnip`.
-    --     end,
-    -- },
+    snippet = {
+        expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip`.
+        end,
+    },
     formatting = {
         format = lspkind.cmp_format({
             with_text = true,
@@ -58,7 +58,7 @@ cmp.setup({
     sources = cmp.config.sources({
         { name = 'path' },
         { name = 'nvim_lsp' },
-        -- { name = 'vsnip' }, -- For vsnip.
+        { name = 'vsnip' }, -- For vsnip.
         {name = 'omni'},
     }, {
         { name = 'buffer' },

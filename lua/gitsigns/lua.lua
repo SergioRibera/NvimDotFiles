@@ -7,15 +7,21 @@ require("gitsigns").setup {
         changedelete = {hl = "DiffChange", text = "▌", numhl = "GitSignsChangeNr"}
     },
     keymaps = {},
-    watch_index = {
-        interval = 100
+    signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
+    numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
+    linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
+    word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+    watch_gitdir = {
+        interval = 1000,
+        follow_files = true
     },
     current_line_blame = true,
     sign_priority = 6,
     update_debounce = 100,
     status_formatter = nil,
-    use_decoration_api = true,
-    use_internal_diff = not vim.fn.has("windows"),
+    diff_opts = {
+        internal = not vim.fn.has("windows"),
+    }
 }
 
 local cmd = vim.cmd

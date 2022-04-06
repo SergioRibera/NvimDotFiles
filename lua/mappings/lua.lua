@@ -84,6 +84,16 @@ _G.register_map("n", "<leader>q", ':q!<CR>', {}, "save", "Quit buffer")
 _G.register_map("n", "<leader>w", ':w!<CR>', {}, "save", "Write buffer")
 _G.register_map("n", "<leader>wq", ':x<CR>', {}, "save", "Write and close buffer")
 
+_G.register_map("n", "<Leader>dd", ":call vimspector#Launch()<CR>", {}, "viminspector", "")
+_G.register_map("n", "<Leader>de", ":call vimspector#Reset()<CR>", {}, "viminspector", "")
+_G.register_map("n", "<Leader>dc", ":call vimspector#Continue()<CR>", {}, "viminspector", "")
+_G.register_map("n", "<Leader>dt", ":call vimspector#ToggleBreakpoint()<CR>", {}, "viminspector", "")
+_G.register_map("n", "<Leader>dT", ":call vimspector#ClearBreakpoints()<CR>", {}, "viminspector", "")
+_G.register_map("n", "<Leader>dk", "<Plug>VimspectorRestart", {}, "viminspector", "")
+_G.register_map("n", "<Leader>dh", "<Plug>VimspectorStepOut", {}, "viminspector", "")
+_G.register_map("n", "<Leader>dl", "<Plug>VimspectorStepInto", {}, "viminspector", "")
+_G.register_map("n", "<Leader>dj", "<Plug>VimspectorStepOver", {}, "viminspector", "")
+
 -- OPEN TERMINALS --
 local os_type = vim.bo.fileformat:upper()
 if os_type == 'UNIX' or os_type == 'MAC' then
