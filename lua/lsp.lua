@@ -1,7 +1,6 @@
 local lsp_installer = require("nvim-lsp-installer")
 local lsp_installer_servers = require'nvim-lsp-installer.servers'
-local settings_manager = require 'nvim-conf'
-local split_func = require 'nvim-conf.utils'.split_str
+local settings_manager = require 'nvim-conf' local split_func = require 'nvim-conf.utils'.split_str
 local notify = require("notify")
 
 --[
