@@ -13,7 +13,7 @@ _G.load_inlay_hints = function ()
     require"lsp_extensions".inlay_hints{ prefix = " » ", highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"}}
 end
 
-vim.api.nvim_command('autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua _G.load_inlay_hints()')
+-- vim.api.nvim_command('autocmd InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost *.rs :lua _G.load_inlay_hints()')
 
 local function setup_handlers()
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
