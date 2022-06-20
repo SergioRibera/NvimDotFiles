@@ -61,7 +61,7 @@ local on_attach = function (_, bufnr)
 
     -- Mappings.
     local opts = {silent = true}
-    map("n", "<leader>ga", "<cmd>lua require'telescope.builtin'.lsp_code_actions()<Cr>", opts, "lsp", "Show code actions on line")
+    map("n", "<leader>ga", "<cmd>lua vim.lsp.buf.code_action()<Cr>", opts, "lsp", "Show code actions on line")
     map("n", "<leader>gD", "<Cmd>lua require'telescope.builtin'.lsp_definitions()<CR>", opts, "lsp", "Show definitions on project")
     map("n", "<leader>gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts, "lsp", "Show definitions on current file")
     map("n", "<leader>K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts, "lsp", "Show details for element where hold cursor")

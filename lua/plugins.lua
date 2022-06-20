@@ -56,6 +56,7 @@ return require('packer').startup(function()
     use 'ur4ltz/surround.nvim'
     use 'jbyuki/instant.nvim' -- Collaborative Nvim
     use 'monaqa/dial.nvim' -- Increment/Decrement number and more
+    use 'nvim-telescope/telescope-ui-select.nvim'
 
     -- My Plugins Customs
     use 'SergioRibera/nvim-conf'
