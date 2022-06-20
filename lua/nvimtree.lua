@@ -1,35 +1,5 @@
 local cmd = vim.cmd
-local g = vim.g
-
 vim.o.termguicolors = true
-
-g.nim_tree_quit_on_open = 0
-g.nvim_tree_group_empty = 1
-g.nvim_tree_git_hl = 1
-g.nvim_tree_root_folder_modifier = ":~"
-g.nvim_tree_special_files = { 'README.md', 'Makefile', 'MAKEFILE' }
-g.nvim_tree_show_icons = {
-    git = 1,
-    folders = 1,
-    files = 1
-}
-
-g.nvim_tree_icons = {
-    default = " ",
-    symlink = " ",
-    git = {
-        unstaged = "✗",
-        staged = "✓",
-        unmerged = "",
-        renamed = "➜",
-        untracked = "●"
-    },
-    folder = {
-        default = "",
-        open = "",
-        symlink = ""
-    }
-}
 
 -- Mappings for nvimtree
 _G.register_map (
@@ -49,6 +19,29 @@ cmd "hi NvimTreeFolderName guifg = #61afef"
 cmd "hi NvimTreeIndentMarker guifg=#383c44"
 
 require'nvim-tree'.setup {
+    renderer = {
+        group_empty = true,
+        highlight_git = true,
+        special_files = { 'README.md', 'Makefile', 'MAKEFILE' },
+        icons = {
+            glyphs = {
+                default = " ",
+                symlink = " ",
+                git = {
+                    unstaged = "✗",
+                    staged = "✓",
+                    unmerged = "",
+                    renamed = "➜",
+                    untracked = "●"
+                },
+                folder = {
+                    default = "",
+                    open = "",
+                    symlink = ""
+                }
+            }
+        }
+    },
     diagnostics = {
         enable = true,
         icons = {
@@ -129,5 +122,5 @@ require'nvim-tree'.setup {
                 }
             }
         }
-    }
+    },
 }
