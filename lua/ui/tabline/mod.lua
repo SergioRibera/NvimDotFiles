@@ -60,7 +60,7 @@ function M.get_icon(name, extension, selected, opts)
         local icon, icon_hgroup = devicons.get_icon(name, extension)
         if icon then
             local _guibg = opts.colors.disabled.bg
-            local _guifg = require('tabline.colors').get_hex({ name=icon_hgroup, attribute="fg" })
+            local _guifg = require('ui.tabline.colors').get_hex({ name=icon_hgroup, attribute="fg" })
             if selected then
                 icon_hgroup = "TabLineSelect" .. icon_hgroup
                 _guibg = opts.colors.selected.bg

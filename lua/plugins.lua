@@ -1,6 +1,6 @@
 vim.cmd [[packadd packer.nvim]]
 
-return require('packer').startup(function()
+return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
     use 'lukas-reineke/indent-blankline.nvim'
 
@@ -14,7 +14,6 @@ return require('packer').startup(function()
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/nvim-cmp'
-    use 'github/copilot.vim'
     use 'nvim-lua/lsp_extensions.nvim'
 
     -- Snipets.
@@ -53,7 +52,6 @@ return require('packer').startup(function()
 
     -- misc
     use 'andweeb/presence.nvim' -- display nvim on discord
-    use 'ur4ltz/surround.nvim'
     use 'jbyuki/instant.nvim' -- Collaborative Nvim
     use 'monaqa/dial.nvim' -- Increment/Decrement number and more
     use 'nvim-telescope/telescope-ui-select.nvim'

@@ -18,7 +18,7 @@ cmd "hi NvimTreeFolderIcon guifg = #61afef"
 cmd "hi NvimTreeFolderName guifg = #61afef"
 cmd "hi NvimTreeIndentMarker guifg=#383c44"
 
-require'nvim-tree'.setup {
+require("nvim-tree").setup {
     renderer = {
         group_empty = true,
         highlight_git = true,
