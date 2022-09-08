@@ -39,14 +39,14 @@ require("gitsigns").setup {
         buffer = true,
     },
     signcolumn = true,
-    word_diff = true,
-    attach_to_untracked = true,
-    current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+    word_diff = false,
+    attach_to_untracked = false,
+    current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
     current_line_blame_opts = {
         virt_text = true,
         virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
         delay = 1000,
-        ignore_whitespace = false,
+        ignore_whitespace = true,
     },
     current_line_blame_formatter_opts = {
         relative_time = false,

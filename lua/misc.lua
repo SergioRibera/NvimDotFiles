@@ -12,9 +12,6 @@ g.kommentary_create_default_mappings = false
 cmd "syntax enable"
 cmd "syntax on"
 
--- local base16 = require "base16"
--- base16(base16.themes["material"], true)
-
 -- Identline
 g.indentLine_enabled = 1
 g.indentLine_char_list = { "▏", '¦', '┆', '┊' }
@@ -35,10 +32,7 @@ g.copilot_tab_fallback = ""
 if g.neovide ~= nil then
     -- g.neovide_transparency=0.8                  -- Neovide Transparency
     g.neovide_cursor_antialiasing = true        -- Nevovide cursor Antialiasing
-    -- g.neovide_cursor_vfx_mode = "railgun"       -- Neovide Efect on Move Cursor
     g.neovide_cursor_vfx_mode = "ripple"        -- Neovide
-    -- g.neovide_floating_blur_radius_x = 7.0       -- Neovide Floating Blur Radius
-    -- g.neovide_floating_blur_radius_y = 7.0       -- Neovide Floating Blur Radius
 end
 
 vim.o.guifont = 'FiraCode Nerd Font:10;CaskaydiaCove Nerd Font:10'
@@ -135,7 +129,6 @@ vim.opt.foldtext = 'v:lua.custom_fold_text()'
 --]
 vim.api.nvim_command("autocmd BufWritePre,BufWinLeave ?* silent! mkview")
 vim.api.nvim_command("autocmd BufWinEnter ?* silent! loadview")
-vim.api.nvim_command("autocmd TextChanged,TextChangedI * silent! write")
 vim.api.nvim_command("autocmd CursorHold,CursorHoldI * checktime")
 
 local M = {}

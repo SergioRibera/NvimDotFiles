@@ -57,12 +57,12 @@ require("nvim-tree").setup {
         ignore_list = {}
     },
     system_open = {
-       cmd  = nil,
+        cmd  = nil,
         args = {}
     },
     filters = {
         dotfiles = false,
-        custom = { ".git", "node_modules", ".cache", ".vscode", ".vs", "*.meta" }
+        custom = { ".git$", "node_modules$", ".cache$", ".vscode$", ".vs$", "*.meta$" }
     },
     git = {
         enable = true,
@@ -111,7 +111,7 @@ require("nvim-tree").setup {
             global = false,
         },
         open_file = {
-            quit_on_open = false,
+            quit_on_open = true,
             resize_window = false,
             window_picker = {
                 enable = true,

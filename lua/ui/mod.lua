@@ -1,3 +1,4 @@
+require("ui.treesitter")
 require("colorizer").setup()
 require("ui.nvimtree")
 require("ui.telescope")
