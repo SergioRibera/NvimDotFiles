@@ -121,16 +121,6 @@ vim.opt.foldlevel = 20
 vim.opt.fillchars = { fold = '⏤' }
 vim.opt.foldtext = 'v:lua.custom_fold_text()'
 
-
---[
---
---      Autocommands
---
---]
-vim.api.nvim_command("autocmd BufWritePre,BufWinLeave ?* silent! mkview")
-vim.api.nvim_command("autocmd BufWinEnter ?* silent! loadview")
-vim.api.nvim_command("autocmd CursorHold,CursorHoldI * checktime")
-
 local M = {}
 
 function M.is_buffer_empty()

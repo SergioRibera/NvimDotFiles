@@ -5,6 +5,7 @@ require("core.comments")
 require("core.lsp")
 require("core.file-icons")
 require("core.git")
+require("core.autocmd")
 require("instant")
 require("nvim-surround").setup()
 
@@ -15,15 +16,3 @@ require("lspkind").init({
         Enum = ""
     }
 })
-
-
---[
---
--- Autosave
---
---]
-local auto_save = require("nvim-conf").get_value("auto_save", "true")
-
-if auto_save == "true" then
-    vim.api.nvim_command("autocmd TextChanged,TextChangedI * silent! write")
-end

@@ -166,6 +166,6 @@ for s in pairs(servers) do
             each_server:install()
         end
     else
-        notify("LSP Server \"" .. servers[s] .. "\" not recognized", "warn", { title="LSP Autoinstall", timeout=2000 })
+        notify("LSP Server \"" .. servers[s] .. "\" not recognized", "warn", { title="LSP Autoinstall", timeout=1000 })
     end
 end
