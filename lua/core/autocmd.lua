@@ -18,7 +18,7 @@ vim.api.nvim_command("autocmd BufWritePre,BufWinLeave ?* silent! mkview")
 vim.api.nvim_command("autocmd BufWinEnter ?* silent! loadview")
 vim.api.nvim_command("autocmd CursorHold,CursorHoldI * checktime")
 vim.api.nvim_command("autocmd VimEnter * lua _G.OnEnter()")
-vim.api.nvim_command("autocmd QuitPre * lua _G.OnExit()")
+vim.api.nvim_command("autocmd VimLeavePre * lua _G.OnExit()")
 
 --[
 --

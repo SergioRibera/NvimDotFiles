@@ -37,7 +37,7 @@ M.saveSession = function()
     if not M.checkVimspector() then
        return
     end
-    vim.api.nvim_command("silent VimspectorMKSession")
+    vim.api.nvim_command("silent VimspectorMkSession")
 end
 
 return M
