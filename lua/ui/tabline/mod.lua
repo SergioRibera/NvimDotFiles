@@ -1,6 +1,10 @@
 local M = {}
 local fn = vim.fn
 
+local function set_hl(id, opts)
+    vim.api.nvim_set_hl(0, id, opts)
+end
+
 M.options = {
     show_index = false,
     show_modify = true,
@@ -42,16 +46,16 @@ local function handle_user_command(command, buf_id)
         vim.cmd(fmt(command, buf_id))
     end
 end
+
 function M.handle_close_tab(buf_id)
     local options = M.options
     local close = options.close_command
     handle_user_command(close, buf_id)
 end
 
-
 ---Add click action to a component
 function M.make_clickable(id, func_name, component)
-  return "%" .. id .. "@tabline_lua#" .. func_name .. "@" .. component
+    return "%" .. id .. "@tabline_lua#" .. func_name .. "@" .. component
 end
 
 function M.get_icon(name, extension, selected, opts)
@@ -60,16 +64,16 @@ function M.get_icon(name, extension, selected, opts)
         local icon, icon_hgroup = devicons.get_icon(name, extension)
         if icon then
             local _guibg = opts.colors.disabled.bg
-            local _guifg = require('ui.tabline.colors').get_hex({ name=icon_hgroup, attribute="fg" })
+            local _guifg = require('ui.tabline.colors').get_hex({ name = icon_hgroup, attribute = "fg" })
             if selected then
                 icon_hgroup = "TabLineSelect" .. icon_hgroup
                 _guibg = opts.colors.selected.bg
             else
                 icon_hgroup = "TabLine" .. icon_hgroup
             end
-            vim.highlight.create(icon_hgroup, {
-                guibg=_guibg, guifg=_guifg
-            }, false) -- End
+            set_hl(icon_hgroup, {
+                bg = _guibg, fg = _guifg
+            }) -- End
             return '%#' .. icon_hgroup .. '#' .. icon .. ' '
         end
         return ''
@@ -101,7 +105,7 @@ local function tabline(options)
             else
                 separatorgroup = "%#TabLineSepSel#"
             end
-        -- TODO: made color border on multiple case
+            -- TODO: made color border on multiple case
         elseif (index + 1) == fn.tabpagenr() then -- Next is selected
             separatorgroup = "%#TabLineSepNextSel#"
         elseif index == fn.tabpagenr('$') then
@@ -117,7 +121,9 @@ local function tabline(options)
         end
         s = s .. ' '
         if options.show_icon then
-            s = s .. M.get_icon(fn.fnamemodify(bufname, ':e'), fn.fnamemodify(bufname, ':e'), index == fn.tabpagenr(), options) .. gengroup .. ' '
+            s = s ..
+                M.get_icon(fn.fnamemodify(bufname, ':e'), fn.fnamemodify(bufname, ':e'), index == fn.tabpagenr(), options)
+                .. gengroup .. ' '
         end
         -- buf name
         if bufname ~= '' then
@@ -130,7 +136,8 @@ local function tabline(options)
             s = s .. options.indicators.modify .. ' '
         end
         if options.show_close then
-            s = s .. M.make_clickable(index, "handle_close_tab", gengroup .. M.options.close_icon .. M.options.spacing .. "%X" )
+            s = s ..
+                M.make_clickable(index, "handle_close_tab", gengroup .. M.options.close_icon .. M.options.spacing .. "%X")
         end
         s = s .. options.spacing
 
@@ -147,36 +154,36 @@ function M.setup(user_options)
     M.options = vim.tbl_extend('force', M.options, user_options)
 
     function _G.s4rch_tabline()
-        vim.highlight.create("TabLine", {
-            guibg = M.options.colors.disabled.bg,
-            guifg = M.options.colors.disabled.fg
-        }, false) -- No Selected
-        vim.highlight.create("TabLineSel", {
-            guibg = M.options.colors.selected.bg,
-            guifg = M.options.colors.selected.fg
-        }, false) -- Selected
+        set_hl("TabLine", {
+            bg = M.options.colors.disabled.bg,
+            fg = M.options.colors.disabled.fg
+        }) -- No Selected
+        set_hl("TabLineSel", {
+            bg = M.options.colors.selected.bg,
+            fg = M.options.colors.selected.fg
+        }) -- Selected
         -- Separator
-        vim.highlight.create("TabLineSep", {
-            guibg = M.options.colors.disabled.bg,
-            guifg = M.options.colors.disabled.bg
-        }, false) -- No Selected
-        vim.highlight.create("TabLineSepSel", {
-            guibg = M.options.colors.disabled.bg,
-            guifg = M.options.colors.selected.bg
-        }, false) -- Selected
-        vim.highlight.create("TabLineSepNextSel", {
-            guibg = M.options.colors.selected.bg,
-            guifg = M.options.colors.disabled.bg
-        }, false) -- Next is Selected
-        vim.highlight.create("TabLineSepEnd", {
-            guibg = M.options.colors.empty,
-            guifg = M.options.colors.disabled.bg
-        }, false) -- End
-        vim.highlight.create("TabLineSepEndSel", {
-            guibg = M.options.colors.empty,
-            guifg = M.options.colors.selected.bg
-        }, false) -- End Selected
-        vim.highlight.create("TabLineFill", {guibg=M.options.colors.empty}, false) -- Fill Empty
+        set_hl("TabLineSep", {
+            bg = M.options.colors.disabled.bg,
+            fg = M.options.colors.disabled.bg
+        }) -- No Selected
+        set_hl("TabLineSepSel", {
+            bg = M.options.colors.disabled.bg,
+            fg = M.options.colors.selected.bg
+        }) -- Selected
+        set_hl("TabLineSepNextSel", {
+            bg = M.options.colors.selected.bg,
+            fg = M.options.colors.disabled.bg
+        }) -- Next is Selected
+        set_hl("TabLineSepEnd", {
+            bg = M.options.colors.empty,
+            fg = M.options.colors.disabled.bg
+        }) -- End
+        set_hl("TabLineSepEndSel", {
+            bg = M.options.colors.empty,
+            fg = M.options.colors.selected.bg
+        }) -- End Selected
+        set_hl("TabLineFill", { bg = M.options.colors.empty }) -- Fill Empty
         return tabline(M.options)
     end
 

@@ -73,7 +73,7 @@ lualine.setup {
             }
         },
         lualine_x = { },
-        lualine_y = { },
+        lualine_y = { "require'core.lsp.progress.mod'.status()" },
         lualine_z = { 'progress', 'location'  },
     },
     inactive_sections = {

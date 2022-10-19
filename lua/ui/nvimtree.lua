@@ -2,23 +2,25 @@ local cmd = vim.cmd
 vim.o.termguicolors = true
 
 -- Mappings for nvimtree
-_G.register_map (
-"n",
-"<leader>n",
-":NvimTreeToggle<CR>",
-{
-    noremap = true,
-    silent = true
-}, "nvimtree", "Toggle between open/close NvimTree"
+_G.register_map(
+    "n",
+    "<leader>n",
+    ":NvimTreeToggle<CR>",
+    {
+        noremap = true,
+        silent = true
+    }, "nvimtree", "Toggle between open/close NvimTree"
 )
 
-local tree_cb = require'nvim-tree.config'.nvim_tree_callback
+local tree_cb = require 'nvim-tree.config'.nvim_tree_callback
 
 cmd "hi NvimTreeFolderIcon guifg = #61afef"
 cmd "hi NvimTreeFolderName guifg = #61afef"
 cmd "hi NvimTreeIndentMarker guifg=#383c44"
 
 require("nvim-tree").setup {
+    disable_netrw = true,
+    ignore_buffer_on_setup = true,
     renderer = {
         group_empty = true,
         highlight_git = true,
@@ -71,7 +73,6 @@ require("nvim-tree").setup {
     },
     view = {
         width = 30,
-        height = 30,
         hide_root_folder = false,
         side = 'left',
         preserve_window_proportions = true,
