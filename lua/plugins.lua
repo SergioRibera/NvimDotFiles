@@ -21,6 +21,7 @@ return require('packer').startup(function(use)
     use 'hrsh7th/vim-vsnip'
 
     -- lsp stuff
+    use 'j-hui/fidget.nvim'
     use 'puremourning/vimspector'
     use 'williamboman/nvim-lsp-installer'
     use 'nvim-treesitter/nvim-treesitter'
