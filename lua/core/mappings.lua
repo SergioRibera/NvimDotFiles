@@ -1,7 +1,9 @@
-local settings_manager = require 'nvim-conf'
-local notify = require("notify")
-
-_G.my_mapping_table = {}
+M = {}
+-- [
+--
+--      Basic Global funcitonality
+--
+-- ]
 local mapping_table_contains = function (t, v)
     for _, value in ipairs(t) do
         if value.mode == v.mode and value.lhs == v.lhs and value.category == v.category then
@@ -10,7 +12,7 @@ local mapping_table_contains = function (t, v)
     end
     return false
 end
-function _G.register_map(m, ls, rs, opts, c, d)
+M.register_map = function (m, ls, rs, opts, c, d)
     local options = {noremap = true}
     if opts then
         options = vim.tbl_extend("force", options, opts)
@@ -25,87 +27,88 @@ function _G.register_map(m, ls, rs, opts, c, d)
     end
 end
 
---
---  Cycle Themes
---
-local base16 = require "base16"
-local themes_names = {
-    "monokai", "onedark", "nord", "flat", "google-dark", "solarized-dark", "tomorrow-night",
-    "ocean", "oceanicnext", "macintosh",
-    "gruvbox-dark-hard", "gruvbox-dark-medium", "gruvbox-dark-pale", "gruvbox-dark-soft",
-    "gruvbox-light-hard", "gruvbox-light-medium", "gruvbox-light-pale", "gruvbox-light-soft"
-}
-local log_cycle_theme = false
-local base16_position = settings_manager.get_value("current_theme", 1)
-base16_position = (base16_position - 1 % #themes_names) + 1
-base16(base16.themes[themes_names[base16_position]], true)
+-- Set Globals
+_G.my_mapping_table = {}
+_G.register_map = M.register_map
 
-function _G.cycle_teme ()
-    base16_position = (base16_position % #themes_names) + 1
-    base16(base16.themes[themes_names[base16_position]], true)
-    settings_manager.set_value("current_theme", base16_position)
-    notify("Theme changed to: " .. themes_names[base16_position], "info", { title="Theme Color", timeout=2000 })
-    if log_cycle_theme == true then
-        print(base16_position)
-        print("Theme changed to: " .. themes_names[base16_position])
-    end
-end
-function _G.cycle_inverse_teme()
-    base16_position = (base16_position % #themes_names) - 1
-    base16(base16.themes[themes_names[base16_position]], true)
-    settings_manager.set_value("current_theme", base16_position)
-    notify("Theme changed to: " .. themes_names[base16_position], "info", { title="Theme Color", timeout=2000 })
-    if log_cycle_theme == true then
-        print(base16_position)
-        print("Theme changed to: " .. themes_names[base16_position])
-    end
-end
-
-
+local map = M.register_map
 
 --
 --  Mappings
 --
-
-_G.register_map("n", "<leader>tn", ":lua cycle_teme()<Cr>", {}, "themes", "Cycle to next theme")
-_G.register_map("n", "<leader>tp", ":lua cycle_inverse_teme()<Cr>", {}, "themes", "Cycle to preview theme")
-_G.register_map("n", "<C-h>", ":tabprevious<Cr>", {}, "tabs", "Go to preview tab") -- Move to prev tab
-_G.register_map("n", "<C-l>", ":tabnext<Cr>", {}, "tabs", "Go to next tab") -- Move to next tab
-_G.register_map("n", "<leader>y", '"+y', {}, "clipboard", "Copy into system clipboard") -- Copy any selected text
-_G.register_map("n", "<leader>p", '"+p', {}, "clipboard", "Paste from system clipboard") -- Paste any text
--- _G.register_map("", "<leader>ws", ":split<Cr>") -- Open Split windows
--- _G.register_map("", "<leader>wh", ":vsplit<Cr>") -- Open Vertical split windows
-_G.register_map("v", "<leader>ps", ":TakeScreenShot<Cr>", {}, "screenshot", "Take screenshot (SergioRibera/nvim-silicon)") -- Take Screenshot (require SergioRibera/vim-screenshot plugin)
+map("n", "<leader>tn", ":lua cycle_teme()<Cr>", {}, "themes", "Cycle to next theme")
+map("n", "<leader>tp", ":lua cycle_inverse_teme()<Cr>", {}, "themes", "Cycle to preview theme")
+map("n", "<C-h>", ":tabprevious<Cr>", {}, "tabs", "Go to preview tab") -- Move to prev tab
+map("n", "<C-l>", ":tabnext<Cr>", {}, "tabs", "Go to next tab") -- Move to next tab
+map("n", "<leader>y", '"+y', {}, "clipboard", "Copy into system clipboard") -- Copy any selected text
+map("n", "<leader>p", '"+p', {}, "clipboard", "Paste from system clipboard") -- Paste any text
+map("v", "<leader>ps", ":TakeScreenShot<Cr>", {}, "screenshot", "Take screenshot (SergioRibera/nvim-silicon)") -- Take Screenshot (require SergioRibera/vim-screenshot plugin)
 
 --
 --  Save or Quit
 --
-_G.register_map("n", "<leader>q", ':q!<CR>', {}, "save", "Quit buffer")
-_G.register_map("n", "<leader>w", ':w!<CR>', {}, "save", "Write buffer")
-_G.register_map("n", "<leader>wq", ':x<CR>', {}, "save", "Write and close buffer")
+map("n", "<leader>q", ':q!<CR>', {}, "save", "Quit buffer")
+map("n", "<leader>w", ':w!<CR>', {}, "save", "Write buffer")
+map("n", "<leader>wq", ':x<CR>', {}, "save", "Write and close buffer")
 
-_G.register_map("n", "<Leader>dr", ":call vimspector#Launch()<CR>", {}, "viminspector", "Run Debug Inspector")
-_G.register_map("n", "<Leader>de", ":call vimspector#Reset()<CR>", {}, "viminspector", "Reset Breakpoints")
-_G.register_map("n", "<Leader>dc", ":call vimspector#Continue()<CR>", {}, "viminspector", "Next BreakPoint")
-_G.register_map("n", "<Leader>dt", ":call vimspector#ToggleBreakpoint()<CR>", {}, "viminspector", "Toggle BreakPoint in current line")
-_G.register_map("n", "<Leader>dT", ":call vimspector#ClearBreakpoints()<CR>", {}, "viminspector", "Clear BreakPoints")
-_G.register_map("n", "<Leader>dk", "<Plug>VimspectorRestart", {}, "viminspector", "Restart Debug")
-_G.register_map("n", "<Leader>dh", "<Plug>VimspectorStepOut", {}, "viminspector", "Step Out Debug")
-_G.register_map("n", "<Leader>dl", "<Plug>VimspectorStepInto", {}, "viminspector", "Step Into Debug")
-_G.register_map("n", "<Leader>dj", "<Plug>VimspectorStepOver", {}, "viminspector", "Step Over Debug")
+-- [
+--
+--      Viminspector
+--
+-- ]
+map("n", "<Leader>dr", ":call vimspector#Launch()<CR>", {}, "viminspector", "Run Debug Inspector")
+map("n", "<Leader>de", ":call vimspector#Reset()<CR>", {}, "viminspector", "Reset Breakpoints")
+map("n", "<Leader>dc", ":call vimspector#Continue()<CR>", {}, "viminspector", "Next BreakPoint")
+map("n", "<Leader>dt", ":call vimspector#ToggleBreakpoint()<CR>", {}, "viminspector", "Toggle BreakPoint in current line")
+map("n", "<Leader>dT", ":call vimspector#ClearBreakpoints()<CR>", {}, "viminspector", "Clear BreakPoints")
+map("n", "<Leader>dk", "<Plug>VimspectorRestart", {}, "viminspector", "Restart Debug")
+map("n", "<Leader>dh", "<Plug>VimspectorStepOut", {}, "viminspector", "Step Out Debug")
+map("n", "<Leader>dl", "<Plug>VimspectorStepInto", {}, "viminspector", "Step Into Debug")
+map("n", "<Leader>dj", "<Plug>VimspectorStepOver", {}, "viminspector", "Step Over Debug")
 
--- OPEN TERMINALS --
+
+map("i", "<C-L>", "copilot#Accept()", {silent = true, expr = true, script = true}, "copilot", "Accept current copilot suggest")
+M.lsp_mapping = function ()
+    local opts = {silent = true}
+    map("n", "<leader>ga", "<cmd>lua vim.lsp.buf.code_action()<Cr>", opts, "lsp", "Show code actions on line")
+    map("n", "<leader>gD", "<Cmd>lua require'telescope.builtin'.lsp_definitions()<CR>", opts, "lsp", "Show definitions on project")
+    map("n", "<leader>gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts, "lsp", "Show definitions on current file")
+    map("n", "<leader>K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts, "lsp", "Show details for element where hold cursor")
+    map("n", "<leader>gi", "<cmd>lua require'telescope.builtin'.lsp_implementations()<CR>", opts, "lsp", "Show implementations")
+    map("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts, "lsp", "")
+    map("n", "<leader>aw", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts, "lsp", "Add folder into workspace")
+    map("n", "<leader>rw", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts, "lsp", "Remove folder from workspace")
+    map("n", "<leader>lw", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts, "lsp", "List folders on workspace")
+    map("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts, "lsp", "Rename definition")
+    map("n", "<leader>gr", "<cmd>lua require'telescope.builtin'.lsp_references()<CR>", opts, "lsp", "Show all references of definition")
+    map("n", "<leader>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts, "lsp", "Show diagnostic on current line")
+    map("n", "<leader>ld", [[<Cmd>lua require('telescope.builtin').lsp_document_diagnostics()<CR>]], opts, "telescope", "Show diagnostic on current file")
+    map("n", "<leader>ws", [[<Cmd>lua require('telescope.builtin').lsp_workspace_symbols()<CR>]], opts, "telescope", "Show all symbols on workspace")
+    map("n", "<C-f>", [[<Cmd>lua vim.lsp.buf.format({ tabSize = vim.o.shiftwidth or 4, aync = true })<CR>]], opts, "lsp", "Format the current document with LSP")
+    -- map("n", "q", "<cmd>lua require'telescope.builtin'.loclist()<CR>", opts, "lsp", "")
+end
+
+-- [
+--
+--      OPEN TERMINALS
+--
+-- ]
 local os_type = vim.bo.fileformat:upper()
+local term = 'bash'
 if os_type == 'UNIX' or os_type == 'MAC' then
     -- Detect if exists a command
     local default_terminal = vim.fn.expand("$SHELL")
     if default_terminal == "/bin/zsh" or default_terminal == '/usr/bin/zsh' then
-        _G.register_map("n", "<C-b>", [[<Cmd> split term://zsh | resize 10 <CR>]], {}, "terminal", "Open new zsh terminal on bottom") -- open term bottom
+        term = "zsh"
     elseif default_terminal == '/bin/fish' or default_terminal == '/usr/bin/fish' then
-        _G.register_map("n", "<C-b>", [[<Cmd> split term://fish | resize 10 <CR>]], {}, "terminal", "Open new fish terminal on bottom") -- open term bottom
+        term = "fish"
     else
-        _G.register_map("n", "<C-b>", [[<Cmd> split term://bash | resize 10 <CR>]], {}, "terminal", "Open new terminal on bottom") -- open term bottom
+        term = "bash"
     end
 else
-    _G.register_map("n", "<C-b>", [[<Cmd> split term://powershell | resize 10 <CR>]], {}, "terminal", "Open new powershell terminal on bottom") -- open term bottom
+    term = "powershell"
 end
+-- open term bottom
+map("n", "<C-b>", "<Cmd> split term://" .. term .. " | resize 10 <CR>", {}, "terminal", "Open new " .. term .. " terminal on bottom")
+
+return M

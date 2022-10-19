@@ -1,5 +1,5 @@
-local cmp = require'cmp'
-local lspkind = require'lspkind'
+local cmp = require 'cmp'
+local lspkind = require 'lspkind'
 
 vim.o.completeopt = "menu,menuone,noselect"
 
@@ -41,14 +41,14 @@ cmp.setup({
             else
                 fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
             end
-        end, {"i", "s"}),
+        end, { "i", "s" }),
         ["<S-Tab>"] = cmp.mapping(function()
             if cmp.visible() then
                 cmp.select_prev_item()
             elseif vim.fn["vsnip#jumpable"](-1) == 1 then
                 feedkey("<Plug>(vsnip-jump-prev)", "")
             end
-        end, {"i", "s"}),
+        end, { "i", "s" }),
         ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
         ['<CR>'] = cmp.mapping({
             i = cmp.mapping.confirm({ select = true }),
@@ -59,10 +59,10 @@ cmp.setup({
         { name = 'path' },
         { name = 'nvim_lsp' },
         { name = 'vsnip' }, -- For vsnip.
-        {name = 'omni'},
+        { name = 'omni' },
     }, {
         { name = 'buffer' },
-    })
+    }),
 })
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
