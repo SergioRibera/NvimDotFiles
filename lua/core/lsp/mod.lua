@@ -1,5 +1,3 @@
-local lsp_installer = require("nvim-lsp-installer")
-local lsp_installer_servers = require("nvim-lsp-installer.servers")
 local settings_manager = require("nvim-conf")
 local split_func = require("nvim-conf.utils").split_str
 local notify = require("notify")
@@ -26,73 +24,8 @@ local on_attach = function(_, bufnr)
     -- vim.api.nvim_create_autocmd({ "BufEnter" }, {
     --     callback = references.list_lsp_references
     -- })
-    references.list_lsp_references()
+    -- references.list_lsp_references()
 end
-
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-lsp_installer.on_server_ready(function(server)
-    local opts = {
-        on_attach = on_attach,
-        capabilities = capabilities
-    }
-
-    if server.name == "sumneko_lua" then
-        opts = {
-            on_attach = on_attach,
-            capabilities = capabilities,
-            root_dir = function()
-                return vim.loop.cwd()
-            end,
-            settings = {
-                Lua = {
-                    runtime = {
-                        version = "LuaJIT",
-                        path = vim.split(package.path, ";")
-                    },
-                    diagnostics = {
-                        globals = { "vim" }
-                    },
-                    workspace = {
-                        library = {
-                            [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                            [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true
-                        }
-                    },
-                    telemetry = {
-                        enable = false
-                    }
-                }
-            }
-        }
-    elseif server.name == "omnisharp" then
-        opts = {
-            on_attach = on_attach,
-            capabilities = capabilities,
-            settings = {
-                FormattingOptions = {
-                    EnableEditorConfigSupport = true
-                },
-                ImplementTypeOptions = {
-                    InsertionBehavior = 'WithOtherMembersOfTheSameKind',
-                    PropertyGenerationBehavior = 'PreferAutoProperties'
-                },
-                RenameOptions = {
-                    RenameInComments = true,
-                    RenameInStrings  = true,
-                    RenameOverloads  = true
-                },
-                RoslynExtensionsOptions = {
-                    EnableAnalyzersSupport = true,
-                    EnableDecompilationSupport = true,
-                    EnableImportCompletion = true,
-                    locationPaths = {}
-                }
-            }
-        }
-    end
-    -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
-    server:setup(opts)
-end)
 
 setup_handlers()
 setup_sign_icons()
@@ -108,13 +41,18 @@ local servers_required_raw = settings_manager.get_value("lsp_servers", "sumneko_
 --
 --]
 local servers = split_func(servers_required_raw, ',')
-for s in pairs(servers) do
-    local ok, each_server = lsp_installer_servers.get_server(servers[s])
-    if ok then
-        if not each_server:is_installed() then
-            each_server:install()
-        end
-    else
-        notify("LSP Server \"" .. servers[s] .. "\" not recognized", "warn", { title = "LSP Autoinstall", timeout = 1000 })
-    end
-end
+require("mason-lspconfig").setup({
+    ensure_installed = servers,
+    automatic_installation = false,
+})
+require("mason").setup({
+    ui = {
+        check_outdated_packages_on_open = true,
+        icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
+        }
+    }
+})
+require('core.lsp.servers').setup(on_attach)

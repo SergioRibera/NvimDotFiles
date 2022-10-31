@@ -23,10 +23,11 @@ return require('packer').startup(function(use)
     -- lsp stuff
     use 'j-hui/fidget.nvim'
     use 'puremourning/vimspector'
-    use 'williamboman/nvim-lsp-installer'
+    use 'williamboman/mason.nvim'
+    use 'neovim/nvim-lspconfig'
+    use 'williamboman/mason-lspconfig.nvim'
     use 'nvim-treesitter/nvim-treesitter'
     use 'onsails/lspkind-nvim'
-    use 'neovim/nvim-lspconfig'
     use 'mattn/emmet-vim' -- Impllemt emmet for html/js/css
     use 'terrortylor/nvim-comment'
     use 'simrat39/symbols-outline.nvim'
