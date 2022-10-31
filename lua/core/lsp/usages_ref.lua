@@ -4,10 +4,10 @@ local references_hints_ns = vim.api.nvim_create_namespace("lsp.references.count.
 
 local CONFIG_NS = 'lsp.ref.'
 
-local enable = cfg.get_value(CONFIG_NS .. 'enable', "true")
-local show_symbol_name = cfg.get_value(CONFIG_NS .. 'show_symbol_name', "false")
-local inline_vt = cfg.get_value(CONFIG_NS .. 'inline_vt', "true")
-local prefix = cfg.get_value(CONFIG_NS .. 'prefix', "~>")
+local enable = cfg.get_value(CONFIG_NS..'enable', "true")
+local show_symbol_name = cfg.get_value(CONFIG_NS..'show_symbol_name', "false")
+local inline_vt = cfg.get_value(CONFIG_NS..'inline_vt', "true")
+local prefix = cfg.get_value(CONFIG_NS..'prefix', "~>")
 
 local SPACE = "space"
 local highlight = "Comment"
@@ -70,39 +70,13 @@ local function distance_between_cols(bufnr, lnum, start_col, end_col)
     -- return total
 end
 
-local function show_references(references)
-    if not references or vim.tbl_isempty(references) then
-        return
-    end
-
-    local vlines = {}
-    local lnum = symbol.lnum - 1
-    local opts = { hl_mode = 'combine', virt_text = vlines }
-    local tb_ref = vim.lsp.util.locations_to_items(references, o)
-    print(symbol.text .. ': ' .. utils.dump(tb_ref))
-    -- If inline vrtual text is not enabled
-    if inline_vt == 'false' then
-        lnum = symbol.lnum - 2
-        opts = { virt_lines = { vlines } }
-        -- Make space from left
-        vim.list_extend(vlines,
-            { { string.rep(" ", distance_between_cols(bufnr, symbol.lnum, 0, symbol.col)), SPACE } })
-    end
-    -- Add text to show
-    local t = (show_symbol_name == 'true' and " for " .. symbol.text) or ''
-    vim.list_extend(vlines, { { prefix .. " " .. #tb_ref .. " References" .. t, highlight } })
-    -- Show the virtual lines
-    vim.api.nvim_buf_set_extmark(bufnr, references_hints_ns, lnum, 0, opts)
-end
-
 M.list_lsp_references = function()
     -- local opts = vim.tbl_extend('force', o, { textDocument = vim.lsp.util.make_text_document_params() })
     if enable == 'false' then
         return
     end
 
-    -- lsp_list("textDocument/documentSymbol", nil,
-    vim.lsp.buf.document_symbol({ on_list = function(result, bufnr, _, _)
+    lsp_list("textDocument/documentSymbol", nil, function(result, bufnr, _, _)
         if not result or vim.tbl_isempty(result) then
             -- TODO: show notification(?
             return
@@ -120,11 +94,31 @@ M.list_lsp_references = function()
                 context = { includeDeclaration = true },
                 textDocument = vim.lsp.util.make_text_document_params()
             }
-            -- lsp_list("textDocument/references", params,
-            vim.lsp.buf.references(params, { on_list = function(references, _, o, _)
-            end })
+            lsp_list("textDocument/references", params, function(references, _, o, _)
+                if not references or vim.tbl_isempty(references) then
+                    return
+                end
+
+                local vlines = {}
+                local lnum = symbol.lnum - 1
+                local opts = { hl_mode = 'combine', virt_text = vlines }
+                local tb_ref = vim.lsp.util.locations_to_items(references, o)
+                -- If inline vrtual text is not enabled
+                if inline_vt == 'false' then
+                    lnum = symbol.lnum - 2
+                    opts = { virt_lines = { vlines } }
+                    -- Make space from left
+                    vim.list_extend(vlines,
+                        { { string.rep(" ", distance_between_cols(bufnr, symbol.lnum, 0, symbol.col)), SPACE } })
+                end
+                -- Add text to show
+                local t = (show_symbol_name == 'true' and " for " .. symbol.text) or ''
+                vim.list_extend(vlines, { { prefix .. " " .. #tb_ref.. " References" .. t, highlight } })
+                -- Show the virtual lines
+                vim.api.nvim_buf_set_extmark(bufnr, references_hints_ns, lnum, 0, opts)
+            end)
         end
-    end })
+    end)
     -- lsp_list("textDocument/implementation", nil, function(result, _, _)
     -- end)
     -- lsp_list("textDocument/definition", function(_, _)
