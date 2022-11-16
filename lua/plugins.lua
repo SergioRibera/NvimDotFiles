@@ -35,11 +35,7 @@ return require('packer').startup(function(use)
     use {
         'simrat39/inlay-hints.nvim',
         config = function()
-            require('inlay-hints').setup({
-                hints = {
-                    parameter = { show = false },
-                },
-            })
+            require('inlay-hints').setup()
         end,
     }
 

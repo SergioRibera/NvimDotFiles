@@ -4,6 +4,9 @@ M.setup = function(on_attach, capabilities)
     require("lspconfig").sumneko_lua.setup({
         settings = {
             Lua = {
+                hint = {
+                    enable = true,
+                },
                 completion = { callSnippet = "Disable" },
                 diagnostics = {
                     globals = {
