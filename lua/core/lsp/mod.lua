@@ -1,33 +1,14 @@
 local settings_manager = require("nvim-conf")
 local split_func = require("nvim-conf.utils").split_str
-local notify = require("notify")
+local utils = require('core.utils')
+local lspconfig = require('lspconfig')
 
 --      MySelf Implementation
 local setup_sign_icons = require("core.lsp.sign_icons").setup
-local setup_handlers = require("core.lsp.handlers").setup
--- local inlay_hints = require("core.lsp.inlay_hints")
-local references = require("core.lsp.usages_ref")
-local mappings = require("core.mappings")
+local handlers = require("core.lsp.handlers")
 
-local on_attach = function(_, bufnr)
-    local function buf_set_option(name, value)
-        vim.api.nvim_buf_set_option(bufnr, name, value)
-    end
-
-    buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
-
-    -- if (args.data and args.data.client_id) then
-    --     inlay_hints.request(bufnr)
-    -- end
-
-    mappings.lsp_mapping()
-    -- vim.api.nvim_create_autocmd({ "BufEnter" }, {
-    --     callback = references.list_lsp_references
-    -- })
-    -- references.list_lsp_references()
-end
-
-setup_handlers()
+-- Override handlers
+handlers.override_handlers()
 setup_sign_icons()
 
 --
@@ -35,11 +16,7 @@ setup_sign_icons()
 --
 local servers_required_raw = settings_manager.get_value("lsp_servers", "sumneko_lua")
 
---[
---
---      Autoinstall
---
---]
+-- Autoinstall
 local servers = split_func(servers_required_raw, ',')
 require("mason-lspconfig").setup({
     ensure_installed = servers,
@@ -55,4 +32,15 @@ require("mason").setup({
         }
     }
 })
-require('core.lsp.servers').setup(on_attach)
+-- Load and configure servers
+for _, server in ipairs(servers) do
+    local mod = "core.lsp.servers." .. server
+    if utils.isModuleAvailable(mod) then
+        require(mod).setup(handlers.on_attach, handlers.capabilities)
+    else
+        lspconfig[server].setup({
+            on_attach = handlers.on_attach,
+            capabilities = handlers.capabilities,
+        })
+    end
+end

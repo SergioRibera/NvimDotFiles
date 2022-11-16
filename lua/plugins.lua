@@ -32,10 +32,25 @@ return require('packer').startup(function(use)
     use 'terrortylor/nvim-comment'
     use 'simrat39/symbols-outline.nvim'
     use 'dag/vim-fish'
+    use {
+        'simrat39/inlay-hints.nvim',
+        config = function()
+            require('inlay-hints').setup({
+                hints = {
+                    parameter = { show = false },
+                },
+            })
+        end,
+    }
+
+    -- Language-related
+    use({ "akinsho/flutter-tools.nvim" })
+    use({ "simrat39/rust-tools.nvim" })
 
     -- Languajes Independents
     use 'nvim-lua/plenary.nvim'
     use 'rcarriga/nvim-notify'
+
 
     use 'lewis6991/gitsigns.nvim'
     use 'hoob3rt/lualine.nvim'
