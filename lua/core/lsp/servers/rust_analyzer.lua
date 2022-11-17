@@ -10,7 +10,7 @@ M.setup = function(on_attach, capabilities)
         --     adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
         -- },
         tools = {
-            autoSetHints = false,
+            -- autoSetHints = true,
             -- executor = require("rust-tools.executors").toggleterm,
             hover_with_actions = false,
             completion = {
@@ -19,7 +19,7 @@ M.setup = function(on_attach, capabilities)
                 }
             },
             inlay_hints = {
-                auto = false,
+                auto = true,
                 parameter_hints_prefix = ": ",
                 other_hints_prefix = ": ",
             },

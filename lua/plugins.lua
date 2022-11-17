@@ -33,11 +33,19 @@ return require('packer').startup(function(use)
     use 'simrat39/symbols-outline.nvim'
     use 'dag/vim-fish'
     use {
-        'simrat39/inlay-hints.nvim',
-        config = function()
-            require('inlay-hints').setup()
-        end,
+        'lvimuser/lsp-inlayhints.nvim',
+        branch = 'anticonceal',
+        event = { 'LspAttach' },
+        config = function ()
+            require("lsp-inlayhints").setup()
+        end
     }
+    -- use {
+    --     'simrat39/inlay-hints.nvim',
+    --     config = function()
+    --         require('inlay-hints').setup()
+    --     end,
+    -- }
 
     -- Language-related
     use({ "akinsho/flutter-tools.nvim" })

@@ -19,19 +19,19 @@ M.override_handlers = function()
     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
         vim.lsp.diagnostic.on_publish_diagnostics, publish_diagnostics
     )
-    lsp.handlers["callHierarchy/incomingCalls"] = telescope.lsp_incoming_calls
-    lsp.handlers["callHierarchy/outgoingCalls"] = telescope.lsp_outgoing_calls
-    lsp.handlers["textDocument/definition"] = telescope.lsp_definitions
-    lsp.handlers["textDocument/documentSymbol"] = telescope.lsp_document_symbols
-    lsp.handlers["textDocument/hover"] = lsp.with(lsp.handlers.hover, {
-        border = "solid",
-        max_width = 60,
-        max_height = 19,
-    })
-    lsp.handlers["textDocument/implementation"] = telescope.lsp_implementations
-    lsp.handlers["textDocument/references"] = telescope.lsp_references
-    lsp.handlers["textDocument/typeDefinition"] = telescope.lsp_type_definitions
-    lsp.handlers["workspace/symbol"] = telescope.lsp_workspace_symbols
+    -- lsp.handlers["callHierarchy/incomingCalls"] = telescope.lsp_incoming_calls
+    -- lsp.handlers["callHierarchy/outgoingCalls"] = telescope.lsp_outgoing_calls
+    -- lsp.handlers["textDocument/definition"] = telescope.lsp_definitions
+    -- lsp.handlers["textDocument/documentSymbol"] = telescope.lsp_document_symbols
+    -- lsp.handlers["textDocument/hover"] = lsp.with(lsp.handlers.hover, {
+    --     border = "solid",
+    --     max_width = 60,
+    --     max_height = 19,
+    -- })
+    -- lsp.handlers["textDocument/implementation"] = telescope.lsp_implementations
+    -- lsp.handlers["textDocument/references"] = telescope.lsp_references
+    -- lsp.handlers["textDocument/typeDefinition"] = telescope.lsp_type_definitions
+    -- lsp.handlers["workspace/symbol"] = telescope.lsp_workspace_symbols
 end
 
 M.capabilities = require("cmp_nvim_lsp").default_capabilities(lsp.protocol.make_client_capabilities())
@@ -66,9 +66,11 @@ M.on_attach = function(client, bufnr)
     -- end
 
     -- Inlay Hints
-    -- if client.supports_method("textDocument/inlayHints") then
-    --   require("inlay-hints").on_attach(client, bufnr)
-    -- end
+    if client.server_capabilities.inlayHintProvider or client.server_capabilities.clangdInlayHintsProvider or client.supports_method("textDocument/inlayHints") then
+        -- require("inlay-hints").on_attach(client, bufnr)
+        -- vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
+        require("lsp-inlayhints").on_attach(client, bufnr)
+    end
 
     -- Register nvim-cmp LSP source
     if client.name ~= "null-ls" then
