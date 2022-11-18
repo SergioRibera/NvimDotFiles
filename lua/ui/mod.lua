@@ -15,15 +15,16 @@ require("ui.tabline.mod").setup {
     },
     no_name = '[No Name]',
     colors = {
-        selected = {
-            bg = "#98c379",
-            fg = "#1e222a"
-        },
-        disabled = {
-            bg = "#3e4452",
-            fg = "#abb2bf"
-        },
-        empty = "#282c34"
+        use_theme = true,
+        -- selected = {
+        --     bg = "#98c379",
+        --     fg = "#1e222a"
+        -- },
+        -- disabled = {
+        --     bg = "#3e4452",
+        --     fg = "#abb2bf"
+        -- },
+        -- empty = "#282c34"
     }
 }
 require("notify").setup({

@@ -1,6 +1,7 @@
 M = {}
 
 local lsp = vim.lsp
+local navic = require('nvim-navic')
 local telescope = require("telescope.builtin")
 -- local references = require("core.lsp.usages_ref")
 local mappings = require("core.mappings")
@@ -48,6 +49,7 @@ M.on_attach = function(client, bufnr)
     buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
     mappings.lsp_mapping()
+    navic.attach(client, bufnr)
 
     -- Code Lens
     if client.supports_method("textDocument/codeLens") and client.name ~= "rust_analyzer" then

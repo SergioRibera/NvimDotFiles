@@ -1,9 +1,11 @@
+local utils = require('core.utils')
+local hl = require('ui.utils.highlights')
+local themes = require('ui.themes')
+local set_hl = hl.set_hl
+local gen_hl = hl.gen_hl
+
 local M = {}
 local fn = vim.fn
-
-local function set_hl(id, opts)
-    vim.api.nvim_set_hl(0, id, opts)
-end
 
 M.options = {
     show_index = false,
@@ -19,6 +21,7 @@ M.options = {
     },
     no_name = '[No Name]',
     colors = {
+        use_theme = true,
         selected = {
             bg = "#81A1C1",
             fg = "#1e222a"
@@ -28,10 +31,8 @@ M.options = {
             fg = "#1e222a"
         },
         empty = "#282c34"
-    }
+    },
 }
-
-
 
 ---Handle a user "command" which can be a string or a function
 ---@param command string|function
@@ -63,18 +64,11 @@ function M.get_icon(name, extension, selected, opts)
     if ok then
         local icon, icon_hgroup = devicons.get_icon(name, extension)
         if icon then
-            local _guibg = opts.colors.disabled.bg
-            local _guifg = require('ui.tabline.colors').get_hex({ name = icon_hgroup, attribute = "fg" })
+            local new_icon_hgroup = "TabLine" .. icon_hgroup
             if selected then
-                icon_hgroup = "TabLineSelect" .. icon_hgroup
-                _guibg = opts.colors.selected.bg
-            else
-                icon_hgroup = "TabLine" .. icon_hgroup
+                new_icon_hgroup = "TabLineSelect" .. icon_hgroup
             end
-            set_hl(icon_hgroup, {
-                bg = _guibg, fg = _guifg
-            }) -- End
-            return '%#' .. icon_hgroup .. '#' .. icon .. ' '
+            return gen_hl(icon_hgroup, new_icon_hgroup, selected, opts, icon)
         end
         return ''
     else
@@ -84,6 +78,58 @@ function M.get_icon(name, extension, selected, opts)
         end
     end
     return ''
+end
+
+local function set_tabline_hl(options)
+    set_hl("TabLine", {
+        bg = options.colors.disabled.bg,
+        fg = options.colors.disabled.fg
+    }) -- No Selected
+    set_hl("TabLineSel", {
+        bg = options.colors.selected.bg,
+        fg = options.colors.selected.fg
+    }) -- Selected
+    -- Separator
+    set_hl("TabLineSep", {
+        bg = options.colors.disabled.bg,
+        fg = options.colors.disabled.bg
+    }) -- No Selected
+    set_hl("TabLineSepSel", {
+        bg = options.colors.disabled.bg,
+        fg = options.colors.selected.bg
+    }) -- Selected
+    set_hl("TabLineSepNextSel", {
+        bg = options.colors.selected.bg,
+        fg = options.colors.disabled.bg
+    }) -- Next is Selected
+    set_hl("TabLineSepEnd", {
+        bg = options.colors.empty,
+        fg = options.colors.disabled.bg
+    }) -- End
+    set_hl("TabLineSepEndSel", {
+        bg = options.colors.empty,
+        fg = options.colors.selected.bg
+    }) -- End Selected
+    set_hl("TabLineFill", { bg = options.colors.empty }) -- Fill Empty
+end
+
+local function refresh_colors(opts)
+    opts = opts and opts.data or themes.get_current_theme()
+    local theme = opts.theme
+    M.options.colors = {
+        use_theme = true,
+        selected = {
+            bg = '#' .. theme.base05,
+            fg = '#' .. theme.base03
+        },
+        disabled = {
+            bg = '#' .. theme.base02,
+            fg = '#' .. theme.base06
+        },
+        empty = '#' .. theme.base00
+    }
+
+    set_tabline_hl(M.options)
 end
 
 local function tabline(options)
@@ -127,21 +173,20 @@ local function tabline(options)
         end
         -- buf name
         if bufname ~= '' then
-            s = s .. fn.fnamemodify(bufname, ':t') .. ' '
+            s = s .. fn.fnamemodify(bufname, ':t')
         else
-            s = s .. options.no_name .. ' '
+            s = s .. options.no_name
         end
+
         -- modification indicator
         if options.show_modify and bufmodified == 1 then
-            s = s .. options.indicators.modify .. ' '
+            s = s .. ' ' .. options.indicators.modify .. ' '
         end
         if options.show_close then
             s = s ..
                 M.make_clickable(index, "handle_close_tab", gengroup .. M.options.close_icon .. M.options.spacing .. "%X")
         end
         s = s .. options.spacing
-
-
 
         s = s .. separatorgroup .. options.separator .. gengroup .. options.spacing
     end
@@ -151,39 +196,19 @@ local function tabline(options)
 end
 
 function M.setup(user_options)
-    M.options = vim.tbl_extend('force', M.options, user_options)
+    user_options = user_options or {}
+    M.options = vim.tbl_deep_extend('force', M.options, user_options)
 
     function _G.s4rch_tabline()
-        set_hl("TabLine", {
-            bg = M.options.colors.disabled.bg,
-            fg = M.options.colors.disabled.fg
-        }) -- No Selected
-        set_hl("TabLineSel", {
-            bg = M.options.colors.selected.bg,
-            fg = M.options.colors.selected.fg
-        }) -- Selected
-        -- Separator
-        set_hl("TabLineSep", {
-            bg = M.options.colors.disabled.bg,
-            fg = M.options.colors.disabled.bg
-        }) -- No Selected
-        set_hl("TabLineSepSel", {
-            bg = M.options.colors.disabled.bg,
-            fg = M.options.colors.selected.bg
-        }) -- Selected
-        set_hl("TabLineSepNextSel", {
-            bg = M.options.colors.selected.bg,
-            fg = M.options.colors.disabled.bg
-        }) -- Next is Selected
-        set_hl("TabLineSepEnd", {
-            bg = M.options.colors.empty,
-            fg = M.options.colors.disabled.bg
-        }) -- End
-        set_hl("TabLineSepEndSel", {
-            bg = M.options.colors.empty,
-            fg = M.options.colors.selected.bg
-        }) -- End Selected
-        set_hl("TabLineFill", { bg = M.options.colors.empty }) -- Fill Empty
+        if M.options.colors.use_theme then
+            vim.api.nvim_create_autocmd('User', {
+                pattern = 'ThemeUpdate',
+                callback = refresh_colors,
+            })
+            refresh_colors()
+        else
+            set_tabline_hl(M.options)
+        end
         return tabline(M.options)
     end
 

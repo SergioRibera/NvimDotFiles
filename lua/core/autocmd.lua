@@ -1,12 +1,9 @@
-local inspector = require("core.vimspector")
 local auto_save = require("nvim-conf").get_value("auto_save", "true")
 
 function _G.OnExit()
-    inspector.saveSession()
 end
 
 function _G.OnEnter()
-    inspector.loadSession()
 end
 
 --[

@@ -1,4 +1,5 @@
 local lualine = require('lualine')
+local navic = require('nvim-navic')
 
 local colors = {
     bg = "#1e222a",
@@ -19,6 +20,15 @@ local colors = {
     greenYel = "#EBCB8B"
 
 }
+
+local navic_opts = {
+    highlight = true,
+    separator = ' > ',
+    depth_limit = 0,
+    depth_limit_indicator = '..',
+    safe_output = false,
+}
+
 local conditions = {
     buffer_not_empty = function()
         return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
@@ -33,23 +43,24 @@ local conditions = {
     end
 }
 
+navic.setup(navic_opts)
 lualine.setup {
     options = {
-        theme = 'onedark',
-        -- section_separators = {'', ''},
+        theme = 'auto',
+        section_separators = {'', ''},
         -- component_separators = {'', ''},
-        section_separators = {'', ''},
-        component_separators = {'', ''},
+        -- section_separators = { '', '' },
+        component_separators = { '', '' },
         disabled_filetypes = { 'NvimTree', 'Term' },
         icons_enabled = true,
     },
     sections = {
-        lualine_a = { {'mode', upper = true} },
+        lualine_a = { { 'mode', upper = true } },
         lualine_b = {
-            {'branch', icon = ''},
+            { 'branch', icon = '' },
             {
                 'diff',
-                symbols = {added= ' ', modified= '柳 ', removed= ' '},
+                symbols = { added = ' ', modified = '柳 ', removed = ' ' },
                 color_added = colors.green,
                 color_modified = colors.orange,
                 color_removed = colors.red,
@@ -59,8 +70,8 @@ lualine.setup {
         lualine_c = {
             {
                 'diagnostics',
-                sources = {'nvim_diagnostic'},
-                symbols = {error = ' ', warn = ' ', info= ' '},
+                sources = { 'nvim_diagnostic' },
+                symbols = { error = ' ', warn = ' ', info = ' ' },
                 color_error = colors.red,
                 color_warn = colors.yellow,
                 color_info = colors.cyan,
@@ -69,20 +80,22 @@ lualine.setup {
                 'filename',
                 icons_enabled = true,
                 file_status = true,
-                symbols = { modified = ' [+]', readonly = ' [-]'}
-            }
+                symbols = { modified = ' [+]', readonly = ' [-]' }
+            },
+            { navic_opts.separator, cond = navic.is_available },
+            { navic.get_location, cond = navic.is_available }
         },
-        lualine_x = { },
-        lualine_y = { },
-        lualine_z = { 'progress', 'location'  },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = { 'progress', 'location' },
     },
     inactive_sections = {
-        lualine_a = {  },
-        lualine_b = {  },
+        lualine_a = {},
+        lualine_b = {},
         lualine_c = { 'filetype' },
         lualine_x = { 'location' },
-        lualine_y = {  },
-        lualine_z = {  }
+        lualine_y = {},
+        lualine_z = {}
     },
-    extensions = { }
+    extensions = {}
 }

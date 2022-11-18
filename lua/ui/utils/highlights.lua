@@ -8,6 +8,10 @@ function M.hl(item)
   return "%#" .. item .. "#"
 end
 
+function M.set_hl(id, opts)
+    vim.api.nvim_set_hl(0, id, opts)
+end
+
 function M.hl_exists(name)
   return vim.fn.hlexists(name) > 0
 end
@@ -58,5 +62,18 @@ function M.set_all(user_colors)
     end
   end
 end
+
+function M.gen_hl(from, to, selected, opts, text)
+    local _guibg = opts.colors.disabled.bg
+    local _guifg = require('ui.tabline.colors').get_hex({ name = from, attribute = "fg" })
+    if selected then
+        _guibg = opts.colors.selected.bg
+    end
+    M.set_hl(to, {
+        bg = _guibg, fg = _guifg
+    })
+    return '%#' .. to .. '#' .. text
+end
+
 
 return M

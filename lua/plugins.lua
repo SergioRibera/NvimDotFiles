@@ -22,30 +22,29 @@ return require('packer').startup(function(use)
 
     -- lsp stuff
     use 'j-hui/fidget.nvim'
-    use 'puremourning/vimspector'
     use 'williamboman/mason.nvim'
     use 'neovim/nvim-lspconfig'
     use 'williamboman/mason-lspconfig.nvim'
-    use 'nvim-treesitter/nvim-treesitter'
     use 'onsails/lspkind-nvim'
     use 'mattn/emmet-vim' -- Impllemt emmet for html/js/css
     use 'terrortylor/nvim-comment'
     use 'simrat39/symbols-outline.nvim'
     use 'dag/vim-fish'
     use {
+        'nvim-treesitter/nvim-treesitter',
+        run = ':TSUpdate',
+        requires = {
+            'p00f/nvim-ts-rainbow'
+        },
+    }
+    use {
         'lvimuser/lsp-inlayhints.nvim',
         branch = 'anticonceal',
         event = { 'LspAttach' },
-        config = function ()
+        config = function()
             require("lsp-inlayhints").setup()
         end
     }
-    -- use {
-    --     'simrat39/inlay-hints.nvim',
-    --     config = function()
-    --         require('inlay-hints').setup()
-    --     end,
-    -- }
 
     -- Language-related
     use({ "akinsho/flutter-tools.nvim" })
@@ -57,6 +56,7 @@ return require('packer').startup(function(use)
 
 
     use 'lewis6991/gitsigns.nvim'
+    use 'SmiteshP/nvim-navic'
     use 'hoob3rt/lualine.nvim'
     use 'windwp/nvim-autopairs'
     use 'kylechui/nvim-surround'
