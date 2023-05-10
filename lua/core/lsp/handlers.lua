@@ -68,11 +68,11 @@ M.on_attach = function(client, bufnr)
     -- end
 
     -- Inlay Hints
-    if client.server_capabilities.inlayHintProvider or client.server_capabilities.clangdInlayHintsProvider or client.supports_method("textDocument/inlayHints") then
-        -- require("inlay-hints").on_attach(client, bufnr)
-        -- vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
-        require("lsp-inlayhints").on_attach(client, bufnr)
-    end
+    -- if client.server_capabilities.inlayHintProvider or client.server_capabilities.clangdInlayHintsProvider or client.supports_method("textDocument/inlayHints") then
+    --     -- require("inlay-hints").on_attach(client, bufnr)
+    --     -- vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
+    --     require("lsp-inlayhints").on_attach(client, bufnr)
+    -- end
 
     -- Register nvim-cmp LSP source
     if client.name ~= "null-ls" then

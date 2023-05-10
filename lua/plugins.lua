@@ -37,13 +37,19 @@ return require('packer').startup(function(use)
             'p00f/nvim-ts-rainbow'
         },
     }
+    -- use {
+    --     'lvimuser/lsp-inlayhints.nvim',
+    --     branch = 'anticonceal',
+    --     event = { 'LspAttach' },
+    --     config = function()
+    --         require("lsp-inlayhints").setup()
+    --     end
+    -- }
     use {
-        'lvimuser/lsp-inlayhints.nvim',
-        branch = 'anticonceal',
-        event = { 'LspAttach' },
+        "folke/twilight.nvim",
         config = function()
-            require("lsp-inlayhints").setup()
-        end
+	    require("twilight").setup()
+	end
     }
 
     -- Language-related
@@ -66,17 +72,15 @@ return require('packer').startup(function(use)
     -- file managing , picker etc
     use 'kyazdani42/nvim-tree.lua'
     use 'kyazdani42/nvim-web-devicons'
-    use 'ryanoasis/vim-devicons'
     use 'sudormrfbin/cheatsheet.nvim' -- cheatsheet for nvim
-    use 'xiyaowong/telescope-emoji.nvim'
     use 'nvim-telescope/telescope.nvim'
     use 'nvim-telescope/telescope-media-files.nvim'
     use 'nvim-lua/popup.nvim'
 
     -- misc
     use 'andweeb/presence.nvim' -- display nvim on discord
-    use 'jbyuki/instant.nvim' -- Collaborative Nvim
-    use 'monaqa/dial.nvim' -- Increment/Decrement number and more
+    use 'jbyuki/instant.nvim'   -- Collaborative Nvim
+    use 'monaqa/dial.nvim'      -- Increment/Decrement number and more
     use 'nvim-telescope/telescope-ui-select.nvim'
 
     -- My Plugins Customs

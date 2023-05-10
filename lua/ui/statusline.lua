@@ -18,7 +18,6 @@ local colors = {
     lightbg = "#282c34",
     nord = "#81A1C1",
     greenYel = "#EBCB8B"
-
 }
 
 local navic_opts = {

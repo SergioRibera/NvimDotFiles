@@ -14,7 +14,7 @@ setup_sign_icons()
 --
 -- Local server required
 --
-local servers_required_raw = settings_manager.get_value("lsp_servers", "sumneko_lua")
+local servers_required_raw = settings_manager.get_value("lsp_servers", "lua_ls")
 
 -- Autoinstall
 local servers = split_func(servers_required_raw, ',')

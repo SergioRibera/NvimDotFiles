@@ -1,5 +1,5 @@
 require("core.mappings")
-require("core.autopairs")
+-- require("core.autopairs")
 require("core.cmp")
 require("core.comments")
 require("core.lsp.mod")

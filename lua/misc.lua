@@ -35,7 +35,7 @@ if g.neovide ~= nil then
     g.neovide_cursor_vfx_mode = "ripple"        -- Neovide
 end
 
-vim.o.guifont = 'FiraCode Nerd Font:10;CaskaydiaCove Nerd Font:10'
+vim.o.guifont = 'FiraCode Nerd Font:h13;CaskaydiaCove Nerd Font:h13'
 g.indent_blankline_filetype_exclude = {"help", "terminal"}
 g.indent_blankline_buftype_exclude = {"terminal"}
 
