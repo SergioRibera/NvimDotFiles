@@ -12,19 +12,39 @@ _G.register_map(
     }, "nvimtree", "Toggle between open/close NvimTree"
 )
 
-local tree_cb = require 'nvim-tree.config'.nvim_tree_callback
-
 cmd "hi NvimTreeFolderIcon guifg = #61afef"
 cmd "hi NvimTreeFolderName guifg = #61afef"
 cmd "hi NvimTreeIndentMarker guifg=#383c44"
 
+local function on_attach(bufnr)
+    local api = require('nvim-tree.api')
+
+    local function opts(desc)
+        return { desc = desc, noremap = true, silent = true, nowait = true }
+    end
+
+    local maps = {
+        { "n", "o", api.node.open.vertical,        opts('Open: Vertical Split'),   "nvimtree" },
+        { "n", "v", api.node.open.vertical,        opts('Open: Vertical Split'),   "nvimtree" },
+        { "n", "s", api.node.open.horizontal,      opts('Open: Horizontal Split'), "nvimtree" },
+        { "n", "t", api.node.open.tab,             opts('Open: New Tab'),          "nvimtree" },
+        { "n", "I", api.tree.toggle_custom_filter, opts('Toggle Hidden'),          "nvimtree" },
+    }
+
+    for _, map in pairs(maps) do
+        _G.register_map(map[1], map[2], map[3], map[4], map[5], nil)
+        local o = vim.tbl_extend("force", { buffer = bufnr }, map[4])
+        vim.keymap.set(map[1], map[2], map[3], o)
+    end
+end
+
 require("nvim-tree").setup {
+    on_attach = on_attach,
     disable_netrw = true,
-    ignore_buffer_on_setup = true,
     renderer = {
         group_empty = true,
         highlight_git = true,
-        special_files = { 'README.md', 'Makefile', 'MAKEFILE' },
+        special_files = { 'README.md', 'Makefile', 'MAKEFILE', 'Makefile.toml' },
         icons = {
             glyphs = {
                 default = " ",
@@ -58,10 +78,6 @@ require("nvim-tree").setup {
         update_cwd  = false,
         ignore_list = {}
     },
-    system_open = {
-        cmd  = nil,
-        args = {}
-    },
     filters = {
         dotfiles = false,
         custom = { ".git$", "node_modules$", ".cache$", ".vscode$", ".vs$", "*.meta$" }
@@ -76,28 +92,6 @@ require("nvim-tree").setup {
         hide_root_folder = false,
         side = 'left',
         preserve_window_proportions = true,
-        mappings = {
-            custom_only = false,
-            list = {
-                { key = "o", cb = tree_cb("edit") },
-                { key = "<2-LeftMouse>", cb = tree_cb("edit") },
-                { key = "v", cb = tree_cb("vsplit") },
-                { key = "s", cb = tree_cb("split") },
-                { key = "t", cb = tree_cb("tabnew") },
-                { key = "C", cb = tree_cb("cd") },
-                { key = "I", cb = tree_cb("toggle_ignored") },
-                { key = "H", cb = tree_cb("toggle_dotfiles") },
-                { key = "R", cb = tree_cb("refresh") },
-                { key = "a", cb = tree_cb("create") },
-                { key = "d", cb = tree_cb("remove") },
-                { key = "r", cb = tree_cb("rename") },
-                { key = "x", cb = tree_cb("cut") },
-                { key = "c", cb = tree_cb("copy") },
-                { key = "p", cb = tree_cb("paste") },
-                { key = "-", cb = tree_cb("dir_up") },
-                { key = "q", cb = tree_cb("close") }
-            }
-        },
         number = false,
         relativenumber = false,
         signcolumn = "yes"
@@ -108,7 +102,7 @@ require("nvim-tree").setup {
     },
     actions = {
         change_dir = {
-            enable = false,
+            enable = true,
             global = false,
         },
         open_file = {

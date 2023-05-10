@@ -23,8 +23,8 @@ return require('packer').startup(function(use)
     -- lsp stuff
     use 'j-hui/fidget.nvim'
     use 'williamboman/mason.nvim'
-    use 'neovim/nvim-lspconfig'
     use 'williamboman/mason-lspconfig.nvim'
+    use 'neovim/nvim-lspconfig'
     use 'onsails/lspkind-nvim'
     use 'mattn/emmet-vim' -- Impllemt emmet for html/js/css
     use 'terrortylor/nvim-comment'
@@ -34,7 +34,7 @@ return require('packer').startup(function(use)
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate',
         requires = {
-            'p00f/nvim-ts-rainbow'
+            'HiPhish/nvim-ts-rainbow2'
         },
     }
     -- use {
@@ -48,25 +48,22 @@ return require('packer').startup(function(use)
     use {
         "folke/twilight.nvim",
         config = function()
-	    require("twilight").setup()
-	end
+            require("twilight").setup()
+        end
     }
 
     -- Language-related
-    use({ "akinsho/flutter-tools.nvim" })
-    use({ "simrat39/rust-tools.nvim" })
+    use 'simrat39/rust-tools.nvim'
 
     -- Languajes Independents
     use 'nvim-lua/plenary.nvim'
     use 'rcarriga/nvim-notify'
-
 
     use 'lewis6991/gitsigns.nvim'
     use 'SmiteshP/nvim-navic'
     use 'hoob3rt/lualine.nvim'
     use 'windwp/nvim-autopairs'
     use 'kylechui/nvim-surround'
-    use 'alvan/vim-closetag'
     use 'mg979/vim-visual-multi' -- Implement multicursor
 
     -- file managing , picker etc

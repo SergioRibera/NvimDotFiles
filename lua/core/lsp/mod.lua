@@ -18,10 +18,6 @@ local servers_required_raw = settings_manager.get_value("lsp_servers", "lua_ls")
 
 -- Autoinstall
 local servers = split_func(servers_required_raw, ',')
-require("mason-lspconfig").setup({
-    ensure_installed = servers,
-    automatic_installation = false,
-})
 require("mason").setup({
     ui = {
         check_outdated_packages_on_open = true,
@@ -31,6 +27,10 @@ require("mason").setup({
             package_uninstalled = "✗"
         }
     }
+})
+require("mason-lspconfig").setup({
+    ensure_installed = servers,
+    automatic_installation = false,
 })
 -- Load and configure servers
 for _, server in ipairs(servers) do
