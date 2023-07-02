@@ -49,7 +49,9 @@ M.on_attach = function(client, bufnr)
     buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
     mappings.lsp_mapping()
-    navic.attach(client, bufnr)
+    if client.server_capabilities.documentSymbolProvider then
+        navic.attach(client, bufnr)
+    end
 
     -- Code Lens
     if client.supports_method("textDocument/codeLens") and client.name ~= "rust_analyzer" then
