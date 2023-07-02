@@ -18,6 +18,8 @@ cmd "hi NvimTreeIndentMarker guifg=#383c44"
 
 local function on_attach(bufnr)
     local api = require('nvim-tree.api')
+    -- Load default mappings
+    api.config.mappings.default_on_attach(bufnr)
 
     local function opts(desc)
         return { desc = desc, noremap = true, silent = true, nowait = true }
