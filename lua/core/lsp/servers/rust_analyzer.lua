@@ -18,24 +18,10 @@ M.setup = function(on_attach, capabilities)
                 enable = true,
             },
         },
-        check = {
-            command = "check",
-        },
-        checkOnSave = {
-            enable = true,
-            allFeatures = true,
-            overrideCommand = {
-                "cargo",
-                "clippy",
-                "--workspace",
-                "--message-format=json",
-                "--all-features",
-            },
-        },
         completion = {
             autoimport = {
-                enable = true
-            }
+                enable = true,
+            },
         },
         imports = {
             granularity = {
