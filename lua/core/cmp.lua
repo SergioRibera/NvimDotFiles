@@ -1,6 +1,7 @@
 local cmp = require('cmp')
 local types = require("cmp.types")
 local lspkind = require('lspkind')
+local luasnip = require('luasnip')
 local neogen = require('neogen')
 
 vim.o.completeopt = "menu,menuone,noselect"
@@ -38,11 +39,13 @@ cmp.setup({
                 neogen.jump_next()
             elseif cmp.visible() then
                 cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
             elseif has_words_before() then
                 cmp.complete()
             else
-                cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert })
-                -- fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+                -- cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert })
+                fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
             end
         end, { "i", "s" }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
@@ -50,9 +53,11 @@ cmp.setup({
                 neogen.jump_prev()
             elseif cmp.visible() then
                 cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+                luasnip.jump(-1)
             else
-                cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert })
-                -- fallback()
+                -- cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert })
+                fallback()
             end
         end, { "i", "s" }),
         ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),

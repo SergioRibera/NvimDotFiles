@@ -57,18 +57,31 @@ map("n", "<leader>wq", ':x<CR>', {}, "save", "Write and close buffer")
 
 -- [
 --
---      Viminspector
+--      Dap - Debugger
 --
 -- ]
-map("n", "<Leader>dr", ":call vimspector#Launch()<CR>", {}, "viminspector", "Run Debug Inspector")
-map("n", "<Leader>de", ":call vimspector#Reset()<CR>", {}, "viminspector", "Reset Breakpoints")
-map("n", "<Leader>dc", ":call vimspector#Continue()<CR>", {}, "viminspector", "Next BreakPoint")
-map("n", "<Leader>dt", ":call vimspector#ToggleBreakpoint()<CR>", {}, "viminspector", "Toggle BreakPoint in current line")
-map("n", "<Leader>dT", ":call vimspector#ClearBreakpoints()<CR>", {}, "viminspector", "Clear BreakPoints")
-map("n", "<Leader>dk", "<Plug>VimspectorRestart", {}, "viminspector", "Restart Debug")
-map("n", "<Leader>dh", "<Plug>VimspectorStepOut", {}, "viminspector", "Step Out Debug")
-map("n", "<Leader>dl", "<Plug>VimspectorStepInto", {}, "viminspector", "Step Into Debug")
-map("n", "<Leader>dj", "<Plug>VimspectorStepOver", {}, "viminspector", "Step Over Debug")
+map('n', '<F7>', "<Cmd>lua require'dap'.clear_breakpoints()<CR>", {}, "dap", "Clear Breakpoints")
+map('n', '<F8>', "<Cmd>lua require'dap'.continue()<CR>", {}, "dap", "Continue")
+map('n', '<F9>', "<Cmd>lua require'dap'.toggle_breakpoint()<CR>", {}, "dap", "Toggle Breakpoint")
+map('n', '<F12>', "<Cmd>lua require'dap'.run_to_cursor()<CR>", {}, "dap", "Run to cursor")
+map('n', '<leader>dr', "<Cmd>lua require'dap'.repl.toggle()<CR>", {}, "dap", "Toggle controller window")
+map('n', '<leader>dc', "<Cmd>lua require'dap'.terminate()<CR>", {}, "dap", "End Debugging")
+map('n', '<leader>dt', "<Cmd>lua require'dapui'.toggle()<CR>", {}, "dap", "Debug UI Toggle")
+map('n', '<leader>dd', "<Cmd>lua require'dap'.clear_breakpoints()<CR>", {}, "dap", "Clear Breakpoints")
+map('n', '<leader>dl', "<Cmd>lua require'dap'.continue()<CR>", {}, "dap", "Continue")
+map('n', '<leader>db', "<Cmd>lua require'dap'.toggle_breakpoint()<CR>", {}, "dap", "Toggle Breakpoint")
+-- Requests the debugee to step into a function or method if possible.
+-- If it cannot step into a function or method it behaves like `dap.step_over()`.
+map('n', '<leader>i', "<Cmd>lua require'dap'.step_into()<CR>", {}, "dap", "Step Into")
+-- step_next: Requests the debugee to run again for one step.
+map('n', '<leader>n', "<Cmd>lua require'dap'.step_over()<CR>", {}, "dap", "Step Over")
+-- finish: Requests the debugee to step out of a function or method if possible.
+map('n', '<leader>o', "<Cmd>lua require'dap'.step_out()<CR>", {}, "dap", "Step Out")
+
+-- nvim-dap-ui
+-- For a one time expression evaluation, you can call a hover window to show a value
+map('n', '<C-k>', "<Cmd>lua require('dapui').eval()<CR>", {}, "dap", "Eval")
+map('n', '<space>k', "<cmd>lua require('dapui').float_element()<cr>", {}, "dap", "Float Element")
 
 
 map("i", "<C-L>", "copilot#Accept()", { silent = true, expr = true, script = true }, "copilot",

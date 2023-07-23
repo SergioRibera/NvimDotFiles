@@ -7,6 +7,50 @@ local codelldb_path = codelldb_root .. "adapter/codelldb"
 local liblldb_path = codelldb_root .. "lldb/lib/liblldb.so"
 
 M.setup = function(on_attach, capabilities)
+    local opts = {
+        assist = {
+            importEnforceGranularity = true,
+            importPrefix = "create"
+        },
+        cargo = {
+            allFeatures = true,
+            buildScripts = {
+                enable = true,
+            },
+        },
+        check = {
+            command = "check",
+        },
+        checkOnSave = {
+            enable = true,
+            allFeatures = true,
+            overrideCommand = {
+                "cargo",
+                "clippy",
+                "--workspace",
+                "--message-format=json",
+                "--all-features",
+            },
+        },
+        completion = {
+            autoimport = {
+                enable = true
+            }
+        },
+        imports = {
+            granularity = {
+                group = "module",
+            },
+            prefix = "crate",
+        },
+        procMacros = {
+            enable = true,
+        },
+    }
+
+    -- local default = require('lspconfig.server_configurations.rust_analyzer')
+    -- local rustanalyzer = vim.tbl_deep_extend('force', )
+
     require("rust-tools").setup({
         dap = {
             adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
@@ -15,15 +59,15 @@ M.setup = function(on_attach, capabilities)
             -- autoSetHints = true,
             -- executor = require("rust-tools.executors").toggleterm,
             hover_with_actions = false,
-            completion = {
-                autoimport = {
-                    enable = true
-                }
-            },
             inlay_hints = {
                 auto = false,
                 parameter_hints_prefix = ": ",
                 other_hints_prefix = ": ",
+                -- NOT SURE THIS IS VALID/WORKS 😬
+                lifetimeElisionHints = {
+                    enable = true,
+                    useParameterNames = true
+                }
             },
             on_initialized = function()
                 vim.api.nvim_create_autocmd(
@@ -36,33 +80,9 @@ M.setup = function(on_attach, capabilities)
             standalone = true,
             on_attach = on_attach,
             capabilities = capabilities,
-            checkOnSave = {
-                allFeatures = true,
-                overrideCommand = {
-                    "cargo",
-                    "clippy",
-                    "--workspace",
-                    "--message-format=json",
-                    "--all-targets",
-                    "--all-features",
-                },
+            settings = {
+                ["rust-analyzer"] = opts
             },
-            -- settings = {
-            --     ["rust-analyzer"] = {
-            --         imports = {
-            --             granularity = {
-            --                 group = "module",
-            --             },
-            --             prefix = "self",
-            --         },
-            --         cargo = {
-            --             features = "all",
-            --             buildScripts = {
-            --                 enable = true,
-            --             },
-            --         },
-            --     }
-            -- },
         }
     })
 end
