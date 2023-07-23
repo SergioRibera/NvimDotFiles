@@ -9,16 +9,27 @@ return require('packer').startup(function(use)
     use 'norcalli/nvim-colorizer.lua'
 
     -- Completion stuff
-    use 'hrsh7th/cmp-nvim-lsp'
-    use 'hrsh7th/cmp-buffer'
-    use 'hrsh7th/cmp-path'
-    use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/nvim-cmp'
+    use 'hrsh7th/cmp-path'
+    use 'hrsh7th/cmp-buffer'
+    use 'hrsh7th/cmp-cmdline'
+    use 'hrsh7th/cmp-nvim-lsp'
     use 'nvim-lua/lsp_extensions.nvim'
+    use {
+        "danymat/neogen", -- auto generate comments
+        tag = "2.15.2",
+    }
 
     -- Snipets.
-    use 'hrsh7th/cmp-vsnip'
-    use 'hrsh7th/vim-vsnip'
+    use 'saadparwaiz1/cmp_luasnip' -- cmp plugin for luasnip
+    use {
+        "L3MON4D3/LuaSnip", -- manage and show snipets
+        tag = "v2.0.0",
+        run = "make install_jsregexp",
+        requires = {
+            "rafamadriz/friendly-snippets",
+        },
+    }
 
     -- lsp stuff
     use 'folke/trouble.nvim'                -- show diagnostics

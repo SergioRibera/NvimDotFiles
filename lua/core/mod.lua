@@ -1,5 +1,10 @@
 require("core.mappings")
 -- require("core.autopairs")
+require("luasnip.loaders.from_vscode").lazy_load()
+require('neogen').setup({
+    enabled = true,
+    snippet_engine = "luasnip"
+})
 require("core.cmp")
 require("core.comments")
 require("core.lsp.mod")

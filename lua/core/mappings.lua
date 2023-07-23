@@ -98,6 +98,8 @@ M.lsp_mapping = function()
         "Show all symbols on workspace")
     map("n", "<C-f>", [[<Cmd>lua vim.lsp.buf.format({ tabSize = vim.o.shiftwidth or 4, aync = true })<CR>]], opts, "lsp",
         "Format the current document with LSP")
+    map("n", "<leader>nf", ":lua require('neogen').generate()<CR>", opts, "generate",
+        "Intellisense for generate documentation")
     -- map("n", "q", "<cmd>lua require'telescope.builtin'.loclist()<CR>", opts, "lsp", "")
 end
 

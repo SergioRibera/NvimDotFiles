@@ -1,5 +1,7 @@
-local cmp = require 'cmp'
-local lspkind = require 'lspkind'
+local cmp = require('cmp')
+local types = require("cmp.types")
+local lspkind = require('lspkind')
+local neogen = require('neogen')
 
 vim.o.completeopt = "menu,menuone,noselect"
 
@@ -20,7 +22,7 @@ end
 cmp.setup({
     snippet = {
         expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip`.
+            require('luasnip').lsp_expand(args.body)
         end,
     },
     formatting = {
@@ -32,21 +34,25 @@ cmp.setup({
     },
     mapping = {
         ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
+            if neogen.jumpable() then
+                neogen.jump_next()
+            elseif cmp.visible() then
                 cmp.select_next_item()
-            elseif vim.fn["vsnip#available"]() == 1 then
-                feedkey("<Plug>(vsnip-expand-or-jump)", "")
             elseif has_words_before() then
                 cmp.complete()
             else
-                fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+                cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert })
+                -- fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
             end
         end, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(function()
-            if cmp.visible() then
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if neogen.jumpable(true) then
+                neogen.jump_prev()
+            elseif cmp.visible() then
                 cmp.select_prev_item()
-            elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-                feedkey("<Plug>(vsnip-jump-prev)", "")
+            else
+                cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert })
+                -- fallback()
             end
         end, { "i", "s" }),
         ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
@@ -56,9 +62,16 @@ cmp.setup({
         }),
     },
     sources = cmp.config.sources({
+        {
+            name = "nvim_lsp",
+            entry_filter = function(entry)
+                return not (entry:get_kind() == require("cmp.types").lsp.CompletionItemKind.Snippet
+                    and entry.source:get_debug_name() == "nvim_lsp:emmet_ls")
+            end,
+        },
         { name = 'path' },
         { name = 'nvim_lsp' },
-        { name = 'vsnip' }, -- For vsnip.
+        { name = 'luasnip' },
         { name = 'omni' },
     }, {
         { name = 'buffer' },
