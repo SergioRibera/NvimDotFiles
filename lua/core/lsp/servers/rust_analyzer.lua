@@ -31,10 +31,26 @@ M.setup = function(on_attach, capabilities)
             end,
         },
         server = {
-            standalone = false,
+            standalone = true,
             on_attach = on_attach,
             capabilities = capabilities,
-        },
+            settings = {
+                ["rust-analyzer"] = {
+                    imports = {
+                        granularity = {
+                            group = "module",
+                        },
+                        prefix = "self",
+                    },
+                    cargo = {
+                        features = "all",
+                        buildScripts = {
+                            enable = true,
+                        },
+                    },
+                }
+            },
+        }
     })
 end
 
