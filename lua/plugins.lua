@@ -21,20 +21,34 @@ return require('packer').startup(function(use)
     use 'hrsh7th/vim-vsnip'
 
     -- lsp stuff
-    use 'j-hui/fidget.nvim'
-    use 'williamboman/mason.nvim'
-    use 'williamboman/mason-lspconfig.nvim'
-    use 'neovim/nvim-lspconfig'
-    use 'onsails/lspkind-nvim'
-    use 'mattn/emmet-vim' -- Impllemt emmet for html/js/css
-    use 'terrortylor/nvim-comment'
-    use 'simrat39/symbols-outline.nvim'
-    use 'dag/vim-fish'
+    use 'folke/trouble.nvim'                -- show diagnostics
+    use 'williamboman/mason.nvim'           -- pkg manager
+    use 'williamboman/mason-lspconfig.nvim' -- pkg lsp config manager
+    use 'neovim/nvim-lspconfig'             --  lsp configs
+    use 'onsails/lspkind-nvim'              -- icons for lsp
+    use 'terrortylor/nvim-comment'          -- manage comment code with kaymaps
+    use 'dag/vim-fish'                      -- fish shell lsp
+    use 'jayp0521/mason-nvim-dap.nvim'      -- Mason easy install dap adapters and debugers
     use {
-        'nvim-treesitter/nvim-treesitter',
+        'j-hui/fidget.nvim',                -- show loading rust lsp progress
+        tag = 'legacy',
+    }
+    use {
+        "rcarriga/nvim-dap-ui",                -- pretty ui for dap
+        requires = {
+            "mfussenegger/nvim-dap",           -- debug code
+            "theHamsta/nvim-dap-virtual-text", -- virtual text (ex, variable data) while debbuging
+        },
+        config = function()
+            -- call my configuration
+            require('core.lsp.debbuging').setup()
+        end
+    }
+    use {
+        'nvim-treesitter/nvim-treesitter', -- correct code highlight
         run = ':TSUpdate',
         requires = {
-            'HiPhish/nvim-ts-rainbow2'
+            'HiPhish/nvim-ts-rainbow2' -- rainbow plugin for treesitter
         },
     }
     -- use {
@@ -46,7 +60,7 @@ return require('packer').startup(function(use)
     --     end
     -- }
     use {
-        "folke/twilight.nvim",
+        "folke/twilight.nvim", -- Focus into code section
         config = function()
             require("twilight").setup()
         end

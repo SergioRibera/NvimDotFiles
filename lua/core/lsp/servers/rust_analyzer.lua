@@ -1,14 +1,16 @@
 local M = {}
 
--- local extension_path = vim.env.HOME .. "/.vscode/extensions/vadimcn.vscode-lldb-1.6.10/"
--- local codelldb_path = extension_path .. "adapter/codelldb"
--- local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
+local mason_registry = require("mason-registry")
+
+local codelldb_root = mason_registry.get_package("codelldb"):get_install_path() .. "/extension/"
+local codelldb_path = codelldb_root .. "adapter/codelldb"
+local liblldb_path = codelldb_root .. "lldb/lib/liblldb.so"
 
 M.setup = function(on_attach, capabilities)
     require("rust-tools").setup({
-        -- dap = {
-        --     adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
-        -- },
+        dap = {
+            adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
+        },
         tools = {
             -- autoSetHints = true,
             -- executor = require("rust-tools.executors").toggleterm,
@@ -34,22 +36,33 @@ M.setup = function(on_attach, capabilities)
             standalone = true,
             on_attach = on_attach,
             capabilities = capabilities,
-            settings = {
-                ["rust-analyzer"] = {
-                    imports = {
-                        granularity = {
-                            group = "module",
-                        },
-                        prefix = "self",
-                    },
-                    cargo = {
-                        features = "all",
-                        buildScripts = {
-                            enable = true,
-                        },
-                    },
-                }
+            checkOnSave = {
+                allFeatures = true,
+                overrideCommand = {
+                    "cargo",
+                    "clippy",
+                    "--workspace",
+                    "--message-format=json",
+                    "--all-targets",
+                    "--all-features",
+                },
             },
+            -- settings = {
+            --     ["rust-analyzer"] = {
+            --         imports = {
+            --             granularity = {
+            --                 group = "module",
+            --             },
+            --             prefix = "self",
+            --         },
+            --         cargo = {
+            --             features = "all",
+            --             buildScripts = {
+            --                 enable = true,
+            --             },
+            --         },
+            --     }
+            -- },
         }
     })
 end

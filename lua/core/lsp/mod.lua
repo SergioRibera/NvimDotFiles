@@ -15,6 +15,7 @@ setup_sign_icons()
 -- Local server required
 --
 local servers_required_raw = settings_manager.get_value("lsp_servers", "lua_ls")
+local debug_servers_required = settings_manager.get_value("debug_lsp", "cppdbg,codelldb,js")
 
 -- Autoinstall
 local servers = split_func(servers_required_raw, ',')
@@ -44,3 +45,9 @@ for _, server in ipairs(servers) do
         })
     end
 end
+
+local debug_lsp = split_func(debug_servers_required, ',')
+require("mason-nvim-dap").setup({
+    automatic_installation = true,
+    ensure_installed = debug_lsp,
+})
