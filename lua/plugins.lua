@@ -23,7 +23,7 @@ return require('packer').startup(function(use)
     -- Snipets.
     use 'saadparwaiz1/cmp_luasnip' -- cmp plugin for luasnip
     use {
-        "L3MON4D3/LuaSnip", -- manage and show snipets
+        "L3MON4D3/LuaSnip",        -- manage and show snipets
         tag = "v2.0.0",
         run = "make install_jsregexp",
         requires = {
@@ -90,6 +90,7 @@ return require('packer').startup(function(use)
     use 'windwp/nvim-autopairs'
     use 'kylechui/nvim-surround'
     use 'mg979/vim-visual-multi' -- Implement multicursor
+    use { 'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async' }
 
     -- file managing , picker etc
     use 'kyazdani42/nvim-tree.lua'
