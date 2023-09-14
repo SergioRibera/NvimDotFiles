@@ -14,11 +14,8 @@ setup_sign_icons()
 --
 -- Local server required
 --
-local servers_required_raw = settings_manager.get_value("lsp_servers", "lua_ls")
-local debug_servers_required = settings_manager.get_value("debug_lsp", "cppdbg,codelldb,js")
 
 -- Autoinstall
-local servers = split_func(servers_required_raw, ',')
 require("mason").setup({
     ui = {
         check_outdated_packages_on_open = true,
@@ -30,24 +27,22 @@ require("mason").setup({
     }
 })
 require("mason-lspconfig").setup({
-    ensure_installed = servers,
     automatic_installation = false,
+    handlers = {
+        function(server)
+            local mod = "core.lsp.servers." .. server
+            if utils.isModuleAvailable(mod) then
+                require(mod).setup(handlers.on_attach, handlers.capabilities)
+            else
+                lspconfig[server].setup({
+                    on_attach = handlers.on_attach,
+                    capabilities = handlers.capabilities,
+                })
+            end
+        end,
+    }
 })
--- Load and configure servers
-for _, server in ipairs(servers) do
-    local mod = "core.lsp.servers." .. server
-    if utils.isModuleAvailable(mod) then
-        require(mod).setup(handlers.on_attach, handlers.capabilities)
-    else
-        lspconfig[server].setup({
-            on_attach = handlers.on_attach,
-            capabilities = handlers.capabilities,
-        })
-    end
-end
 
-local debug_lsp = split_func(debug_servers_required, ',')
 require("mason-nvim-dap").setup({
     automatic_installation = true,
-    ensure_installed = debug_lsp,
 })
