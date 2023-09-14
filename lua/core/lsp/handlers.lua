@@ -54,12 +54,12 @@ M.on_attach = function(client, bufnr)
     end
 
     -- Code Lens
-    if client.supports_method("textDocument/codeLens") and client.name ~= "rust_analyzer" then
-        vim.api.nvim_create_autocmd(
-            { "BufEnter", "CursorHold", "InsertLeave" },
-            { buffer = bufnr, callback = lsp.codelens.refresh }
-        )
-    end
+    -- if client.supports_method("textDocument/codeLens") and client.name ~= "rust_analyzer" then
+    --     vim.api.nvim_create_autocmd(
+    --         { "BufEnter", "CursorHold", "InsertLeave" },
+    --         { buffer = bufnr, callback = lsp.codelens.refresh }
+    --     )
+    -- end
 
     -- Semantic Token
     -- if client.supports_method("textDocument/semanticTokens/full") then

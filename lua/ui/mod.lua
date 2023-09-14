@@ -5,7 +5,7 @@ require("ui.nvimtree")
 require("ui.telescope")
 require("ui.statusline")
 require("ui.trouble")
-require("ui.ufo").setup()
+-- require("ui.ufo").setup()
 require("ui.tabline.mod").setup {
     show_index = false,
     show_modify = true,

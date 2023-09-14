@@ -1,5 +1,4 @@
 local cmp = require('cmp')
-local types = require("cmp.types")
 local lspkind = require('lspkind')
 local luasnip = require('luasnip')
 local neogen = require('neogen')
@@ -10,9 +9,6 @@ vim.o.completeopt = "menu,menuone,noselect"
 local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-local feedkey = function(key, mode)
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
 --[
@@ -75,7 +71,6 @@ cmp.setup({
             end,
         },
         { name = 'path' },
-        { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'omni' },
     }, {
@@ -99,10 +94,4 @@ cmp.setup.cmdline(':', {
     })
 })
 
---  mappings
-
--- _G.register_map("i", "<Tab>", "v:lua.tab_complete()", {expr = true, noremap = false}, "completion", "Next suggest to complete")
--- _G.register_map("s", "<Tab>", "v:lua.tab_complete()", {expr = true, noremap = false}, "completion", "Next suggest to complete")
--- _G.register_map("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true, noremap = false}, "completion", "Previous suggest to complete")
--- _G.register_map("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true, noremap = false}, "completion", "Previous suggest to complete")
 vim.cmd("autocmd FileType TelescopePrompt lua require('cmp').setup.buffer { enabled = false }")
