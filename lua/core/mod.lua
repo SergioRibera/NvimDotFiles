@@ -1,3 +1,4 @@
+require("core.dotenv.mod").load()
 require("core.mappings")
 -- require("core.autopairs")
 require("luasnip.loaders.from_vscode").lazy_load()
