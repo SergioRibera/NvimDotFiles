@@ -20,6 +20,6 @@ require("lspkind").init({
     mode = 'symbol_text',
     symbol_map = {
         Folder = "",
-        Enum = ""
+        Enum = "",
     }
 })

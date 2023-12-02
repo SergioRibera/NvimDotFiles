@@ -15,9 +15,18 @@ return require('packer').startup(function(use)
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/cmp-nvim-lsp'
     use 'nvim-lua/lsp_extensions.nvim'
+    use 'hrsh7th/cmp-nvim-lsp-signature-help'
     use {
         "danymat/neogen", -- auto generate comments
         tag = "2.15.2",
+    }
+    use {
+        'saecki/crates.nvim',
+        event = { "BufRead Cargo.toml" },
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        config = function()
+            require('crates').setup()
+        end,
     }
 
     -- Snipets.
@@ -101,6 +110,7 @@ return require('packer').startup(function(use)
     use 'nvim-lua/popup.nvim'
 
     -- misc
+    use 'wakatime/vim-wakatime'
     use 'andweeb/presence.nvim' -- display nvim on discord
     use 'jbyuki/instant.nvim'   -- Collaborative Nvim
     use 'monaqa/dial.nvim'      -- Increment/Decrement number and more

@@ -12,6 +12,12 @@ M.setup = function(on_attach, capabilities)
             importEnforceGranularity = true,
             importPrefix = "create"
         },
+        cache = {
+            warmup = false,
+        },
+        cachePriming = {
+            enable = false,
+        },
         cargo = {
             allFeatures = true,
             buildScripts = {
@@ -23,11 +29,16 @@ M.setup = function(on_attach, capabilities)
                 enable = true,
             },
         },
+        diagnostics = {
+            experimental = {
+                enable = true,
+            },
+        },
         imports = {
             granularity = {
                 group = "module",
             },
-            prefix = "crate",
+            prefix = "self",
         },
         procMacros = {
             enable = true,
