@@ -1,6 +1,9 @@
 # Nvim Dotfiles
 I'll keep adding new features like snippets etc and clean the config , make neovim (cli version) as functional as an IDE . Pull requests are welcome.
 
+> [!IMPORTANT]
+> Deprecated in favor of [Nix Config](https://github.com/SergioRibera/dotfiles/tree/main/home/editors/nvim)
+
 ## Screenshots  General
 ![Screenshot_20210521_015354](https://user-images.githubusercontent.com/56278796/119463249-9496c500-bd0f-11eb-8ca8-329b1abe2d2b.png)
 ---
